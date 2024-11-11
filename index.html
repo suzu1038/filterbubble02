@@ -88,14 +88,14 @@
       position: relative;
       z-index: 1; /* 画像の下に配置 */
     }
-  </style>  
+  </style> 
 </head>
 <body>
   <div id="main-title">
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
   </div>
   
-  <h1>下のボタンを押してZIPファイルを読み込もう</h1>
+  <h1>下のボタンからZIPファイルを読み込もう</h1>
   <button id="load-file">Load History ZIP</button>
 
   <div id="container">
@@ -150,42 +150,31 @@
 
     function handleZipFile(zipData) {
       JSZip.loadAsync(zipData).then((zip) => {
-        // ZIP内のファイルを確認
+        let found = false;
+
+        // ZIP内のファイルを検索
         zip.forEach((relativePath, zipEntry) => {
           console.log(`Found file: ${relativePath}`);
-          if (relativePath.endsWith('.json')) {
+
+          // 目的のJSONファイルのパスを指定（YouTube と YouTube Music/履歴/watch-history.json）
+          if (relativePath === 'YouTube と YouTube Music/履歴/watch-history.json') {
+            found = true;
             zipEntry.async('text').then((text) => {
               // JSONファイルが見つかったら解析して表示
               parseAndDisplayHistory(text);
             });
           }
         });
+
+        // ファイルが見つからなかった場合
+        if (!found) {
+          alert('目的のJSONファイルがZIP内に見つかりませんでした。');
+        }
+
       }).catch((err) => {
         console.error('Error reading ZIP file:', err);
         alert('ZIPファイルの読み込み中にエラーが発生しました。');
       });
-    }
-
-    async function fetchCategoryName(categoryId) {
-      return CATEGORY_ID_MAP[categoryId] || 'Unknown Category';
-    }
-
-    async function fetchVideoCategory(videoId) {
-      try {
-        const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          const categoryId = data.items[0].snippet.categoryId;
-          return await fetchCategoryName(categoryId);
-        }
-        return 'Unknown Category';
-      } catch (error) {
-        console.error('Error fetching video category:', error);
-        return 'Unknown Category';
-      }
     }
 
     async function parseAndDisplayHistory(jsonText) {
@@ -221,6 +210,44 @@
       }
     }
 
+    async function fetchVideoCategory(videoId) {
+      try {
+        const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.items && data.items.length > 0) {
+          const categoryId = data.items[0].snippet.categoryId;
+          return await fetchCategoryName(categoryId);
+        }
+        return 'Unknown Category';
+      } catch (error) {
+        console.error('Error fetching video category:', error);
+        return 'Unknown Category';
+      }
+    }
+
+    function fetchCategoryName(categoryId) {
+      const CATEGORY_ID_MAP = {
+        '1': '映画とアニメ',
+        '2': '自動車と乗り物',
+        '10': '音楽',
+        '15': 'ペットと動物',
+        '17': 'スポーツ',
+        '19': '旅行とイベント',
+        '20': 'ゲーム',
+        '22': 'ブログ',
+        '23': 'コメディー',
+        '24': 'エンターテイメント',
+        '25': 'ニュースと政治',
+        '26': 'ハウツーとスタイル',
+        '27': '教育',
+        '28': '科学と技術',
+      };
+      return CATEGORY_ID_MAP[categoryId] || '不明なカテゴリー';
+    }
+
     function drawPieChart(categoryCount) {
       google.charts.load('current', { packages: ['corechart'] });
       google.charts.setOnLoadCallback(() => {
@@ -241,8 +268,9 @@
         const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
         chart.draw(data, options);
 
-        // グラフ描画後に画像表示
+        // 円グラフが描画された後に画像を表示
         document.getElementById('bubble-image').style.display = 'block';
+        document.getElementById('pie-chart').style.display = 'block';
       });
     }
   </script>
