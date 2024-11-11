@@ -95,7 +95,7 @@
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
   </div>
   
-  <h1>下のボタンからZIPファイルを読み込もう</h1>
+  <h1>下のボタンを押してZIPファイルを読み込もう</h1>
   <button id="load-file">Load History ZIP</button>
 
   <div id="container">
@@ -157,7 +157,7 @@
           console.log(`Found file: ${relativePath}`);
 
           // 目的のJSONファイルのパスを指定（YouTube と YouTube Music/履歴/watch-history.json）
-          if (relativePath === 'YouTube と YouTube Music/履歴/watch-history.json') {
+          if (relativePath === 'Takeout/YouTube と YouTube Music/履歴/watch-history.json') {
             found = true;
             zipEntry.async('text').then((text) => {
               // JSONファイルが見つかったら解析して表示
