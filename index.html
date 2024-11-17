@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>あなたのYouTubeの閲覧履歴からフィルターバブルを実感しよう</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -90,26 +91,28 @@
   </style>  
 </head>
 <body>
-  <!-- サイトのタイトルとボタン -->
   <div id="main-title">
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
   </div>
   
-  <h1>下のボタンを押してファイルを読み込もう</h1>
-  <button id="load-file">Load History File</button>
+  <h1>下のボタンを押してZIPファイルを読み込もう</h1>
+  <button id="load-file">Load ZIP File</button>
 
   <div id="container">
-    <!-- 画像をボタンの下に配置 -->
     <img id="bubble-image" src="assets/images/bubble.png" alt="Bubble Image">
-    
     <div id="pie-chart">Loading...</div>
   </div>
 
   <script src="popup.js"></script>
+
+  <footer style="background-color: #333; color: white; padding: 20px; text-align: center; font-size: 14px; line-height: 1.5;">
+    <p>本サービスでは、ユーザーのYouTubeの視聴履歴を基にカテゴリーを分析し、<br>ユーザー自身がフィルターバブル(カテゴリーの偏り)に気づき、<br>問題解決に役立ててもらうことを目的としています。<br>読み込まれた閲覧履歴のデータについて、我々にその情報が一切取得されることはありません。<br>【豊中高校 情報5班】</p>
+  </footer>
+  
 </body>
 <script>
 const MAX_VIDEO_COUNT = 20;
-const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // YouTube Data APIのキー
+const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // APIキーをここに設定
 const VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
 const CATEGORY_ID_MAP = {
@@ -134,16 +137,16 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFileButton.addEventListener('click', () => {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.json';
+    input.accept = '.zip';
     input.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
-          const text = reader.result;
-          parseAndDisplayHistory(text);
+          const zipData = reader.result;
+          processZipFile(zipData);
         };
-        reader.readAsText(file, 'UTF-8');
+        reader.readAsArrayBuffer(file);
       } else {
         console.log('No file selected.');
       }
@@ -152,25 +155,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+function processZipFile(zipData) {
+  JSZip.loadAsync(zipData).then(zip => {
+    // ZIP内のファイルをリスト化してパスを確認
+    zip.forEach((relativePath, file) => {
+      console.log(relativePath); // ZIP内のすべてのファイルパスを表示
+    });
+
+    // エンコードなしで元のパスを使用
+    const historyFilePath = "Takeout/YouTube と YouTube Music/履歴/watch-history.json";
+
+    // ZIP内で指定したファイルを検索
+    const historyFile = zip.file(historyFilePath);
+
+    if (historyFile) {
+      // ファイルが見つかった場合、その内容をテキストとして読み込む
+      historyFile.async("text").then(content => {
+        parseAndDisplayHistory(content);  // 関数を使って内容を処理
+      });
+    } else {
+      // ファイルが見つからなかった場合のエラーハンドリング
+      console.error('指定されたファイルがZIP内に見つかりませんでした。');
+      alert('ZIPファイルにwatch-history.jsonが見つかりません。');
+    }
+  }).catch(error => {
+    console.error('ZIPファイルの読み込みエラー:', error);
+  });
+}
+
+
 async function fetchCategoryName(categoryId) {
-  return CATEGORY_ID_MAP[categoryId] || 'Unknown Category';
+  return CATEGORY_ID_MAP[categoryId] || '不明なカテゴリ';
 }
 
 async function fetchVideoCategory(videoId) {
   try {
     const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTPエラー！ステータス: ${response.status}`);
     }
     const data = await response.json();
     if (data.items && data.items.length > 0) {
       const categoryId = data.items[0].snippet.categoryId;
       return await fetchCategoryName(categoryId);
     }
-    return 'Unknown Category';
+    return '不明なカテゴリ';
   } catch (error) {
-    console.error('Error fetching video category:', error);
-    return 'Unknown Category';
+    console.error('YouTube APIのエラー:', error);
+    return '不明なカテゴリ';
   }
 }
 
@@ -178,11 +210,12 @@ async function parseAndDisplayHistory(jsonText) {
   try {
     const history = JSON.parse(jsonText);
     if (!Array.isArray(history)) {
-      throw new Error('Invalid JSON format');
+      throw new Error('無効なJSONフォーマット');
     }
 
     const categoryCount = {};
 
+    // ここで最大 MAX_VIDEO_COUNT 件の履歴を取得
     const videoUrls = history
       .filter(entry => entry.titleUrl && entry.titleUrl.startsWith('https://www.youtube.com/watch?v='))
       .slice(0, MAX_VIDEO_COUNT);
@@ -191,20 +224,16 @@ async function parseAndDisplayHistory(jsonText) {
       const videoId = new URL(entry.titleUrl).searchParams.get('v');
       if (videoId) {
         const categoryName = await fetchVideoCategory(videoId);
-        if (categoryCount[categoryName]) {
-          categoryCount[categoryName]++;
-        } else {
-          categoryCount[categoryName] = 1;
-        }
+        categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
       }
     }
 
     drawPieChart(categoryCount);
 
   } catch (error) {
-    console.error('Error parsing JSON or displaying history:', error);
+    console.error('履歴データの解析中にエラーが発生しました:', error);
     const pieChartContainer = document.getElementById('pie-chart');
-    pieChartContainer.innerHTML = `An error occurred while processing the file: ${error.message}`;
+    pieChartContainer.innerHTML = `エラーが発生しました: ${error.message}`;
   }
 }
 
@@ -212,8 +241,8 @@ function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Category');
-    data.addColumn('number', 'Count');
+    data.addColumn('string', 'カテゴリ');
+    data.addColumn('number', '数');
 
     for (const [category, count] of Object.entries(categoryCount)) {
       data.addRow([category, count]);
