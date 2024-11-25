@@ -149,6 +149,13 @@
         currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
         imageElement.src = images[currentIndex]; // 画像を変更
       }, interval);
+        function startBubbleAnimation() {
+
+      // 画像を表示
+      imageElement.style.display = 'block';
+          // 円グラフ描画後にアニメーションを開始
+        startBubbleAnimation();
+    }
   const loadFileButton = document.getElementById('load-file');
   loadFileButton.addEventListener('click', () => {
     const input = document.createElement('input');
