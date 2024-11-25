@@ -295,6 +295,38 @@ async function parseAndDisplayHistory(jsonText) {
     pieChartContainer.innerHTML = `エラーが発生しました: ${error.message}`;
   }
 }
+// 画像を表示するための関数
+function displayCategoryImage(categoryName) {
+  const categoryImages = {
+    '映画とアニメ': 'assets/images/category1.png',
+    '自動車と乗り物': 'assets/images/category2.png',
+    '音楽': 'assets/images/category3.png',
+    'ペットと動物': 'assets/images/category4.png',
+    'スポーツ': 'assets/images/category5.png',
+    '旅行とイベント': 'assets/images/category6.png',
+    'ゲーム': 'assets/images/category7.png',
+    'ブログ': 'assets/images/category8.png',
+    'コメディー': 'assets/images/category9.png',
+    'エンターテイメント': 'assets/images/category10.png',
+    'ニュースと政治': 'assets/images/category11.png',
+    'ハウツーとスタイル': 'assets/images/category12.png',
+    '教育': 'assets/images/category13.png',
+    '科学と技術': 'assets/images/category14.png'
+  };
+
+  // 最も大きなカテゴリに対応する画像を表示
+  const imageSrc = categoryImages[categoryName] || 'assets/images/category1.png'; // デフォルト画像
+  const imageElement = document.createElement('img');
+  imageElement.src = imageSrc;
+  imageElement.id = 'category-image';
+  imageElement.style.position = 'absolute';
+  imageElement.style.top = '50px'; // アニメーション画像の上に表示
+  imageElement.style.zIndex = '2'; // アニメーション画像の上に配置
+  imageElement.style.width = '200px'; // 画像のサイズを調整（必要に応じて変更）
+
+  // 画像をアニメーション画像の上に追加
+  document.getElementById('container').appendChild(imageElement);
+}
 
 function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
@@ -303,6 +335,7 @@ function drawPieChart(categoryCount) {
     data.addColumn('string', 'カテゴリ');
     data.addColumn('number', '数');
 
+    // カテゴリとその数を円グラフ用にデータに追加
     for (const [category, count] of Object.entries(categoryCount)) {
       data.addRow([category, count]);
     }
@@ -316,6 +349,14 @@ function drawPieChart(categoryCount) {
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
 
+    // 最も大きなカテゴリを判定
+    const largestCategory = Object.keys(categoryCount).reduce((a, b) =>
+      categoryCount[a] > categoryCount[b] ? a : b
+    );
+
+    // 最も大きなカテゴリの画像を表示
+    displayCategoryImage(largestCategory);
+    
     // 円グラフが描画された後に画像を表示
     document.getElementById('bubble-image').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
