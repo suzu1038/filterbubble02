@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -24,18 +24,18 @@
   
     /* メインタイトルのスタイル */
     #main-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #6ABBC6;
-  padding: 25px;
-  border-radius: 10px;
-  width: 70%;
-  text-align: center;
-  margin-bottom: 40px;
-  line-height: 1.3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
-}
+      font-size: 32px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #6ABBC6;
+      padding: 25px;
+      border-radius: 10px;
+      width: 70%;
+      text-align: center;
+      margin-bottom: 40px;
+      line-height: 1.3;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    }
 
     /* ボタンのスタイル */
     h1 {
@@ -70,12 +70,11 @@
       position: relative;
     }
   
-    /* 画像のスタイル */
-    #bubble-image {
-      width: 520px; /* 画像の幅をさらに大きく */
+    /* アニメーション画像のスタイル */
+    #bubble-animation {
+      width: 520px;
       height: auto;
       margin-bottom: 40px; /* 円グラフとの間に十分なスペースを追加 */
-      display: none;
     }
   
     /* 円グラフのスタイル */
@@ -100,7 +99,8 @@
   <button id="load-file">Load ZIP File</button>
 
   <div id="container">
-    <img id="bubble-image" src="assets/images/bubble.png" alt="Bubble Image">
+    <!-- GIFアニメーションを再現する画像要素 -->
+    <img id="bubble-animation" src="assets/images/bubble1.png" alt="Bubble Animation">
     <div id="pie-chart">Loading...</div>
   </div>
 
@@ -110,30 +110,45 @@
     <p>本サービスでは、ユーザーのYouTubeの視聴履歴を基にカテゴリーを分析し、<br>ユーザー自身がフィルターバブル(カテゴリーの偏り)に気づき、問題解決に役立ててもらうことを目的としています。<br>読み込まれた閲覧履歴のデータについて、我々にその情報が一切取得されることはありません。<br>【豊中高校 情報5班】</p>
   </footer>
   
-</body>
-<script>
-const MAX_VIDEO_COUNT = 20;
-const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // APIキーをここに設定
-const VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
+  <script>
+    const MAX_VIDEO_COUNT = 20;
+    const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // APIキーをここに設定
+    const VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
-const CATEGORY_ID_MAP = {
-  '1': '映画とアニメ',
-  '2': '自動車と乗り物',
-  '10': '音楽',
-  '15': 'ペットと動物',
-  '17': 'スポーツ',
-  '19': '旅行とイベント',
-  '20': 'ゲーム',
-  '22': 'ブログ',
-  '23': 'コメディー',
-  '24': 'エンターテイメント',
-  '25': 'ニュースと政治',
-  '26': 'ハウツーとスタイル',
-  '27': '教育',
-  '28': '科学と技術',
-};
+    const CATEGORY_ID_MAP = {
+      '1': '映画とアニメ',
+      '2': '自動車と乗り物',
+      '10': '音楽',
+      '15': 'ペットと動物',
+      '17': 'スポーツ',
+      '19': '旅行とイベント',
+      '20': 'ゲーム',
+      '22': 'ブログ',
+      '23': 'コメディー',
+      '24': 'エンターテイメント',
+      '25': 'ニュースと政治',
+      '26': 'ハウツーとスタイル',
+      '27': '教育',
+      '28': '科学と技術',
+    };
 
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = [
+        "assets/images/bubble1.png",
+        "assets/images/bubble2.png",
+        "assets/images/bubble3.png"
+      ];
+      const imageElement = document.getElementById('bubble-animation');
+      let currentIndex = 0;
+
+      // 画像を切り替える間隔 (ミリ秒)
+      const interval = 500; // 0.5秒ごとに切り替え
+
+      // 画像の切り替えロジック
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
+        imageElement.src = images[currentIndex]; // 画像を変更
+      }, interval);
   const loadFileButton = document.getElementById('load-file');
   loadFileButton.addEventListener('click', () => {
     const input = document.createElement('input');
