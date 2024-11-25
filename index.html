@@ -35,6 +35,21 @@
       margin-bottom: 40px;
       line-height: 1.3;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+      
+      #instruction-box {
+  font-size: 16px;
+  color: #fff;
+  background-color: #444; /* 背景色 */
+  padding: 15px; /* 内側の余白 */
+  border-radius: 10px; /* 角を丸くする */
+  border: 2px solid #6e7dff; /* 外枠 */
+  text-align: center;
+  margin: 20px 0; /* 上下の余白 */
+  line-height: 1.5;
+  width: 70%; /* コンテンツ幅 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 影を追加 */
+}
+
     }
 
     /* ボタンのスタイル */
@@ -94,6 +109,13 @@
   <div id="main-title">
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
   </div>
+    <p id="instruction">
+    <strong>はじめに：</strong>
+    <a href="https://takeout.google.com/" target="_blank" style="color: #6e7dff; text-decoration: underline;">
+      https://takeout.google.com/
+    </a>
+    からYouTubeの閲覧履歴のデータをダウンロードしてください。
+  </p>
   
   <h1>下のボタンを押してZIPファイルを読み込もう</h1>
   <button id="load-file">Load ZIP File</button>
