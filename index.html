@@ -286,9 +286,16 @@ async function parseAndDisplayHistory(jsonText) {
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
       }
     }
-    
+   drawPieChart(categoryCount);
+
+  } catch (error) {
+    console.error('履歴データの解析中にエラーが発生しました:', error);
+    const pieChartContainer = document.getElementById('pie-chart');
+    pieChartContainer.innerHTML = エラーが発生しました: ${error.message};
+  }
+}
 // 画像を表示するための関数
-function displayCategoryImages(sortedCategories) {
+function displayCategoryImage(categoryName) {
   const categoryImages = {
     '映画とアニメ': 'assets/images/category1.png',
     '自動車と乗り物': 'assets/images/category2.png',
@@ -306,27 +313,21 @@ function displayCategoryImages(sortedCategories) {
     '科学と技術': 'assets/images/category14.png'
   };
 
-  // バブルアニメーションを囲むコンテナ
-  const container = document.getElementById('container');
+  // 最も大きなカテゴリに対応する画像を表示
+  const imageSrc = categoryImages[categoryName] || 'assets/images/category1.png'; // デフォルト画像
+  const imageElement = document.createElement('img');
+  imageElement.src = imageSrc;
+  imageElement.id = 'category-image';
+  imageElement.style.position = 'absolute';
+  imageElement.style.top = '50px'; // アニメーション画像の上に表示
+  imageElement.style.zIndex = '2'; // アニメーション画像の上に配置
+  imageElement.style.left = '50px';
+  imageElement.style.width = '200px'; // 画像のサイズを調整（必要に応じて変更）
 
-  // 上位3つのカテゴリに対応する画像を順番に配置
-  sortedCategories.forEach((category, index) => {
-    const categoryName = category[0];
-    const imageSrc = categoryImages[categoryName] || 'assets/images/category1.png'; // デフォルト画像
-    const imageElement = document.createElement('img');
-
-    imageElement.src = imageSrc;
-    imageElement.style.position = 'absolute';
-    imageElement.style.zIndex = '2'; // バブルアニメーションの上に配置
-    imageElement.style.width = '150px'; // 画像のサイズを調整
-    imageElement.style.top = `${50 + index * 200}px`; // 上下にずらして配置
-    imageElement.style.left = `${50 + index * 220}px`; // 横にずらして配置
-
-    container.appendChild(imageElement);
-  });
+  // 画像をアニメーション画像の上に追加
+  document.getElementById('container').appendChild(imageElement);
 }
 
-// 円グラフを描画する関数
 function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
@@ -348,19 +349,18 @@ function drawPieChart(categoryCount) {
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
 
-    // 上位3つのカテゴリを判定
-    const sortedCategories = Object.entries(categoryCount)
-      .sort((a, b) => b[1] - a[1]) // 降順でソート
-      .slice(0, 3); // 上位3つを取得
+    // 最も大きなカテゴリを判定
+    const largestCategory = Object.keys(categoryCount).reduce((a, b) =>
+      categoryCount[a] > categoryCount[b] ? a : b
+    );
 
-    // 上位3つのカテゴリ画像を表示
-    displayCategoryImages(sortedCategories);
-
+    // 最も大きなカテゴリの画像を表示
+    displayCategoryImage(largestCategory);
+    
     // 円グラフが描画された後に画像を表示
     document.getElementById('bubble-image').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
-}
-
+}　
 </script>
 </html>
