@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -249,9 +249,9 @@ async function fetchCategoryName(categoryId) {
 
 async function fetchVideoCategory(videoId) {
   try {
-    const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
+    const response = await fetch(${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY});
     if (!response.ok) {
-      throw new Error(`HTTPエラー！ステータス: ${response.status}`);
+      throw new Error(HTTPエラー！ステータス: ${response.status});
     }
     const data = await response.json();
     if (data.items && data.items.length > 0) {
@@ -286,6 +286,8 @@ async function parseAndDisplayHistory(jsonText) {
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
       }
     }
+
+
    drawPieChart(categoryCount);
 
   } catch (error) {
