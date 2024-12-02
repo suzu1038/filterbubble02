@@ -294,7 +294,8 @@ async function parseAndDisplayHistory(jsonText) {
     pieChartContainer.innerHTML = エラーが発生しました: ${error.message};
   }
 }
-// 画像を表示するための関数
+
+    // 画像を表示するための関数
 function displayCategoryImage(categoryName) {
   const categoryImages = {
     '映画とアニメ': 'assets/images/category1.png',
@@ -321,7 +322,6 @@ function displayCategoryImage(categoryName) {
   imageElement.style.position = 'absolute';
   imageElement.style.top = '50px'; // アニメーション画像の上に表示
   imageElement.style.zIndex = '2'; // アニメーション画像の上に配置
-  imageElement.style.left = '50px';
   imageElement.style.width = '200px'; // 画像のサイズを調整（必要に応じて変更）
 
   // 画像をアニメーション画像の上に追加
@@ -356,11 +356,7 @@ function drawPieChart(categoryCount) {
 
     // 最も大きなカテゴリの画像を表示
     displayCategoryImage(largestCategory);
-    
-    // 円グラフが描画された後に画像を表示
-    document.getElementById('bubble-image').style.display = 'block';
-    document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
-}　
+}
 </script>
 </html>
