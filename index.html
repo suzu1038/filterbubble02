@@ -312,79 +312,94 @@ function drawPieChart(categoryCount) {
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
     
-    // 上位3位のカテゴリーを取得して画像を表示
-    displayCategoryBubbles(categoryCount);
-    
+
     // 円グラフが描画された後に画像を表示
     document.getElementById('bubble-animation').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
 
   });
 }
-  // 上位3位のカテゴリー画像を表示
-function displayCategoryBubbles(categoryCount) {
-  // 上位3つのカテゴリーを取得
-  const topCategories = Object.entries(categoryCount)
-    .sort(([, countA], [, countB]) => countB - countA) // カウント数で降順ソート
-    .slice(0, 3); // 上位3つを取得
+  // CATEGORY_IMAGE_MAP 定義
+const CATEGORY_IMAGE_MAP = {
+  1: 'category1.png',
+  2: 'category2.png',
+  10: 'category10.png',
+  15: 'category15.png',
+  17: 'category17.png',
+  19: 'category19.png',
+  20: 'category20.png',
+  22: 'category22.png',
+  23: 'category23.png',
+  24: 'category24.png',
+  25: 'category25.png',
+  26: 'category26.png',
+  27: 'category27.png',
+  28: 'category28.png',
+};
 
-  const pieChartContainer = document.getElementById('pie-chart');
+// 上位3カテゴリのバブルを表示する
+function displayTopCategories(data) {
+  // データを割合順にソート（降順）
+  const sortedData = data.sort((a, b) => b.percentage - a.percentage);
   
-  // 上位3つのカテゴリーの画像をバブルとして表示
-  topCategories.forEach(([category, count], index) => {
-    // CATEGORY_ID_MAPからカテゴリー名を取得
-    const categoryId = Object.keys(CATEGORY_ID_MAP).find(key => CATEGORY_ID_MAP[key] === category);
-    
-    // 画像のファイル名を作成 (例: category1.png, category2.png)
-    const imageUrl = `assets/images/category${categoryId}.png`;
-
-    // 画像要素を作成
-    const bubble = document.createElement('img');
-    bubble.src = imageUrl; // 作成したURLをsrcに設定
-    bubble.alt = `${category} Bubble`;
-    bubble.classList.add('top-category-bubble'); // アニメーションを適用
-
-    // 画像が読み込まれた後に表示
-    bubble.onload = () => {
-      // バブルの位置をランダムに設定
-      const xPosition = Math.random() * 80; // X軸のランダム位置（80%以内）
-      const yPosition = Math.random() * 80; // Y軸のランダム位置（80%以内）
-      bubble.style.position = 'absolute'; // 絶対位置を指定
-      bubble.style.left = `${xPosition}%`;
-      bubble.style.top = `${yPosition}%`;
-
-      // 画像を親要素に追加
-      pieChartContainer.appendChild(bubble);
-    };
-
-    // 画像の読み込みエラーをハンドル（表示できない場合）
-    bubble.onerror = () => {
-      console.error(`画像の読み込みに失敗しました: ${imageUrl}`);
-    };
+  // 上位3つのカテゴリIDを取得
+  const topCategories = sortedData.slice(0, 3).map(item => item.categoryId);
+  
+  // 各カテゴリのバブルを作成
+  topCategories.forEach((categoryId, index) => {
+    createCategoryBubble(categoryId, index);
   });
 }
 
+// バブル画像を表示する関数
+function createCategoryBubble(categoryId, index) {
+  const imageName = CATEGORY_IMAGE_MAP[categoryId];
+  
+  if (!imageName) return; // 該当する画像がない場合は処理しない
+
+  // 画像要素を作成
+  const bubble = document.createElement("img");
+  bubble.src = `assets/images/${imageName}`;  // 画像のパス
+  bubble.classList.add("top-category-bubble"); // スタイルを適用
+  
+  // バブルを表示するコンテナに追加
+  const container = document.getElementById("bubble-animation");
+  container.appendChild(bubble);
+
+  // アニメーションを開始
+  animateBubble(bubble, index);
+}
+
+// バブルアニメーションを適用する関数
 function animateBubble(element, index) {
-  // ランダムな初期位置
-  const container = document.getElementById('container');
+  const container = document.getElementById('bubble-animation');
   const containerWidth = container.offsetWidth;
   const containerHeight = container.offsetHeight;
 
-  // 初期位置
-  const x = Math.random() * (containerWidth - 100); // バブルサイズを考慮
-  const y = Math.random() * (containerHeight - 100);
+  // 固定位置を計算（上位3カテゴリが横に並ぶように配置）
+  const positions = [
+    { x: containerWidth / 4 - 50, y: containerHeight / 2 - 50 },
+    { x: containerWidth / 2 - 50, y: containerHeight / 2 - 50 },
+    { x: (3 * containerWidth) / 4 - 50, y: containerHeight / 2 - 50 }
+  ];
 
+  const { x, y } = positions[index] || { x: 0, y: 0 };
+
+  element.style.position = 'absolute';
   element.style.left = `${x}px`;
   element.style.top = `${y}px`;
 
-  // アニメーションを繰り返す
+  // 浮遊アニメーション
   setInterval(() => {
-    const newX = Math.random() * (containerWidth - 100);
-    const newY = Math.random() * (containerHeight - 100);
-
-    element.style.transform = `translate(${newX - x}px, ${newY - y}px)`;
-  }, 2000 * (index + 1)); // 時間差でアニメーション開始
+    element.style.transform = `translateY(-10px)`; // 上に移動
+    setTimeout(() => {
+      element.style.transform = `translateY(0px)`; // 元の位置に戻る
+    }, 2000); // 2秒後に戻す
+  }, 4000); // 4秒毎に繰り返す
 }
+
+// 上位3カテゴリのバブルを表示
+displayTopCategories(pieChartData);
 
 </script>
 </html>
