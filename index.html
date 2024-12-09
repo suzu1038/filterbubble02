@@ -313,7 +313,7 @@ function drawPieChart(categoryCount) {
     chart.draw(data, options);
     
     // 上位3位のカテゴリーを取得して画像を表示
-    displayTopCategories(categoryCount);
+    displayCategoryBubbles(categoryCount);
     
     // 円グラフが描画された後に画像を表示
     document.getElementById('bubble-animation').style.display = 'block';
@@ -321,39 +321,40 @@ function drawPieChart(categoryCount) {
 
   });
 }
-    
-    function displayTopCategories(categoryCount) {
-  // カテゴリを配列に変換し、降順に並び替える
-  const sortedCategories = Object.entries(categoryCount)
-    .sort((a, b) => b[1] - a[1])
+    // 上位3位のカテゴリー画像を表示
+function displayCategoryBubbles(categoryCount) {
+  // 上位3つのカテゴリーを取得
+  const topCategories = Object.entries(categoryCount)
+    .sort(([, countA], [, countB]) => countB - countA) // カウント数で降順ソート
     .slice(0, 3); // 上位3つを取得
 
-  const container = document.getElementById('container');
+  const pieChartContainer = document.getElementById('pie-chart');
 
-  // 上位3つのカテゴリー画像を重ねて表示
-  sortedCategories.forEach(([category, count], index) => {
-    const categoryId = Object.keys(CATEGORY_ID_MAP).find(
-      id => CATEGORY_ID_MAP[id] === category
-    );
+  // 上位3つのカテゴリーの画像をバブルとして表示
+  topCategories.forEach(([category, count], index) => {
+    // CATEGORY_ID_MAPからカテゴリー名を取得
+    const categoryId = Object.keys(CATEGORY_ID_MAP).find(key => CATEGORY_ID_MAP[key] === category);
+    
+    // 画像のファイル名を作成 (例: category1.png, category2.png)
+    const imageUrl = `assets/images/category${categoryId}.png`;
 
-    if (categoryId) {
-      // 新しいバブル画像を作成
-      const bubbleImage = document.createElement('img');
-      bubbleImage.src = `assets/images/category${categoryId}.png`;
-      bubbleImage.alt = category;
-      bubbleImage.className = 'top-category-bubble';
-      bubbleImage.style.position = 'absolute'; // `bubble-animation`の上に配置
-      bubbleImage.style.zIndex = 20;          // レイヤー順を指定
-      bubbleImage.style.width = '100px';      // バブルの幅
-      bubbleImage.style.height = '100px';     // バブルの高さ
+    // 画像要素を作成
+    const bubble = document.createElement('img');
+    bubble.src = imageUrl; // 作成したURLをsrcに設定
+    bubble.alt = `${category} Bubble`;
+    bubble.classList.add('top-category-bubble'); // アニメーションを適用
 
-      container.appendChild(bubbleImage);
-
-      // 初期位置とアニメーション
-      animateBubble(bubbleImage, index);
-    }
+    // 画像を親要素に追加
+    pieChartContainer.appendChild(bubble);
+    
+    // バブルの位置をランダムに設定
+    const xPosition = Math.random() * 100; // X軸のランダム位置
+    const yPosition = Math.random() * 100; // Y軸のランダム位置
+    bubble.style.left = `${xPosition}%`;
+    bubble.style.top = `${yPosition}%`;
   });
 }
+
 function animateBubble(element, index) {
   // ランダムな初期位置
   const container = document.getElementById('container');
