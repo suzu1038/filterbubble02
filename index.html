@@ -75,7 +75,7 @@
   
     #container {
       width: 90%;
-      max-width: 1200px;
+      max-width: 800px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -153,25 +153,6 @@ const CATEGORY_ID_MAP = {
   '27': '教育',
   '28': '科学と技術',
 };
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const images = [
-      "assets/images/bubble1.png",
-      "assets/images/bubble2.png",
-      "assets/images/bubble3.png"
-    ];
-    const imageElement = document.getElementById('bubble-animation');
-    let currentIndex = 0;
-
-    // 画像を切り替える間隔 (ミリ秒)
-    const interval = 500; // 0.5秒ごとに切り替え
-
-    // 画像の切り替えロジック
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
-      imageElement.src = images[currentIndex]; // 画像を変更
-    }, interval);
-  });
 
 document.addEventListener('DOMContentLoaded', () => {
   const loadFileButton = document.getElementById('load-file');
@@ -307,6 +288,26 @@ function drawPieChart(categoryCount) {
     document.getElementById('bubble-animation').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = [
+      "assets/images/bubble1.png",
+      "assets/images/bubble2.png",
+      "assets/images/bubble3.png"
+    ];
+    const imageElement = document.getElementById('bubble-animation');
+    let currentIndex = 0;
+
+    // 画像を切り替える間隔 (ミリ秒)
+    const interval = 500; // 0.5秒ごとに切り替え
+
+    // 画像の切り替えロジック
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
+      imageElement.src = images[currentIndex]; // 画像を変更
+    }, interval);
+  });
+
 }
 </script>
 </html>
