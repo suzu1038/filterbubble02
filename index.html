@@ -291,7 +291,6 @@ function drawPieChart(categoryCount) {
       pieHole: 0.4,
       legend: { position: 'bottom' },
       },
-    };
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
