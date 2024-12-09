@@ -295,8 +295,8 @@ function drawPieChart(categoryCount) {
       chartArea: {
         width: '150%', // 幅を1.5倍に
         height: '150%', // 高さを1.5倍に
-        left: '10%', // 左右余白
-        top: '10%', // 上下余白
+        left: '20%', // 左右余白
+        top: '20%', // 上下余白
       },
     };
 
@@ -304,7 +304,7 @@ function drawPieChart(categoryCount) {
     chart.draw(data, options);
 
     // 円グラフが描画された後に画像を表示
-    document.getElementById('bubble-image').style.display = 'block';
+    document.getElementById('bubble-animation').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
