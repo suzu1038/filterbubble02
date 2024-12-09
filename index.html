@@ -85,7 +85,7 @@
   
     /* 画像のスタイル */
     #bubble-animation {
-      width: 800px; /* 画像の幅をさらに大きく */
+      width: 700px; /* 画像の幅をさらに大きく */
       height: auto;
       margin-bottom: 40px; /* 円グラフとの間に十分なスペースを追加 */
       display: none;
@@ -93,8 +93,8 @@
   
     /* 円グラフのスタイル */
     #pie-chart {
-      width: 800px;
-      height: 800px;
+      width: 700px;
+      height: 700px;
       border: 3px solid #ddd;
       border-radius: 15px;
       background-color: #f9f9f9;
@@ -292,11 +292,6 @@ function drawPieChart(categoryCount) {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
       legend: { position: 'bottom' },
-      chartArea: {
-        width: '140%', // 幅を1.5倍に
-        height: '140%', // 高さを1.5倍に
-        left: '40%', // 左右余白
-        top: '40%', // 上下余白
       },
     };
 
