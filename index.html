@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -6,39 +6,37 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: auto;
-    background-color: #252935;
-    color: #fff;
-    overflow: auto;
-    position: relative;
-    padding-top: 50px;
-  }
-
-  /* メインタイトルはそのままのサイズを保持 */
-  #main-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #6ABBC6;
-    padding: 25px;
-    border-radius: 10px;
-    width: 70%;
-    text-align: center;
-    margin-bottom: 40px;
-    line-height: 1.3;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  /* 説明文のスタイルを1.5倍 */
-  #instruction {
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; /* 上部にコンテンツを寄せる */
+      height: auto; /* 高さを自動調整 */
+      background-color: #252935; /* 背景色を #252935 に設定 */
+      color: #fff; /* 文字色を白に設定 */
+      overflow: auto; /* スクロールを有効にする */
+      position: relative;
+      padding-top: 50px; /* 上部に余白を追加 */
+    }
+  
+    /* メインタイトルのスタイル */
+    #main-title {
+      font-size: 32px; /* 文字を大きく */
+      font-weight: bold;
+      color: #fff;
+      background-color: #6ABBC6; /* 背景色を #6ABBC6 に設定 */
+      padding: 25px; /* 余白を大きく */
+      border-radius: 10px; /* 角を丸く */
+      width: 70%; /* タイトルの幅を調整 */
+      text-align: center; /* 中央揃え */
+      margin-bottom: 40px; /* タイトルとボタンの間に余白を追加 */
+      line-height: 1.3; /* 行間を調整して2行に見やすくする */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    #instruction {
     font-size: 24px; /* 元の16pxから1.5倍 */
     color: #fff;
     background-color: #444;
@@ -52,76 +50,65 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 元の影を1.5倍 */
   }
 
-  /* h1のフォントサイズを1.5倍 */
-  h1 {
-    font-size: 30px; /* 元の20pxから1.5倍 */
-    color: #fff;
-    margin-bottom: 45px; /* 元の30pxから1.5倍 */
-  }
-
-  /* ボタンのスタイルを1.5倍 */
-  #load-file {
-    padding: 15px 30px; /* 元の10px 20pxから1.5倍 */
-    font-size: 24px; /* 元の16pxから1.5倍 */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    background-color: #6e7dff;
-    border: none;
-    color: white;
-    border-radius: 7.5px; /* 元の5pxから1.5倍 */
-    margin-bottom: 45px; /* 元の30pxから1.5倍 */
-  }
-
-  #load-file:hover {
-    background-color: #4d5bc5;
-  }
-
-  /* コンテナ全体の調整 */
-  #container {
-    width: 90%;
-    max-width: 1200px; /* 元の800pxから1.5倍 */
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  /* アニメーション画像のスタイルを1.5倍 */
-  #bubble-animation {
-    width: 780px; /* 元の520pxから1.5倍 */
-    height: auto;
-    margin-bottom: 60px; /* 元の40pxから1.5倍 */
-  }
-
-  /* 円グラフのスタイルを1.5倍 */
-  #pie-chart {
-    width: 600px; /* 元の400pxから1.5倍 */
-    height: 600px; /* 元の400pxから1.5倍 */
-    border: 3px solid #ddd; /* 元の2pxから1.5倍 */
-    border-radius: 15px; /* 元の10pxから1.5倍 */
-    background-color: #f9f9f9;
-    padding: 30px; /* 元の20pxから1.5倍 */
-    position: relative;
-    z-index: 1;
-  }
-
-  /* フッターのフォントサイズを1.5倍 */
-  footer {
-    background-color: #333;
-    color: white;
-    padding: 30px; /* 元の20pxから1.5倍 */
-    text-align: center;
-    font-size: 22.5px; /* 元の15pxから1.5倍 */
-    line-height: 2.25; /* 元の1.5から1.5倍 */
-  }
-</style>
+    /* ボタンのスタイル */
+    h1 {
+      font-size: 30px;
+      color: #fff;
+      margin-bottom: 45px; /* タイトルとボタンの間に大きな余白 */
+    }
+  
+    #load-file {
+      padding: 15px 30px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      background-color: #6e7dff;
+      border: none;
+      color: white;
+      border-radius: 7.5px;
+      margin-bottom: 45px; /* ボタンと画像の間に余白を追加 */
+    }
+  
+    #load-file:hover {
+      background-color: #4d5bc5;
+    }
+  
+    #container {
+      width: 90%;
+      max-width: 1200px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+  
+    /* 画像のスタイル */
+    #bubble-image {
+      width: 520px; /* 画像の幅をさらに大きく */
+      height: auto;
+      margin-bottom: 40px; /* 円グラフとの間に十分なスペースを追加 */
+      display: none;
+    }
+  
+    /* 円グラフのスタイル */
+    #pie-chart {
+      width: 600px;
+      height: 600px;
+      border: 3px solid #ddd;
+      border-radius: 15px;
+      background-color: #f9f9f9;
+      padding: 30px;
+      position: relative;
+      z-index: 1; /* 画像の下に配置 */
+    }
+  </style>  
 </head>
 <body>
   <div id="main-title">
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
   </div>
-   <div id="instruction">
+  <div id="instruction">
     <p>
       <strong>はじめに：</strong>
       <a href="https://takeout.google.com/" target="_blank" style="color: #6e7dff; text-decoration: underline;">
@@ -130,13 +117,11 @@
       からYouTubeの閲覧履歴のデータをダウンロードしてください。
     </p>
   </div>
-  
   <h1>下のボタンを押してZIPファイルを読み込もう</h1>
   <button id="load-file">Load ZIP File</button>
 
   <div id="container">
-    <!-- GIFアニメーションを再現する画像要素 -->
-    <img id="bubble-animation" src="assets/images/bubble1.png" alt="Bubble Animation">
+    <img id="bubble-image" src="assets/images/bubble1.png" alt="Bubble Image">
     <div id="pie-chart">Loading...</div>
   </div>
 
@@ -146,52 +131,30 @@
     <p>本サービスでは、ユーザーのYouTubeの視聴履歴を基にカテゴリーを分析し、<br>ユーザー自身がフィルターバブル(カテゴリーの偏り)に気づき、問題解決に役立ててもらうことを目的としています。<br>読み込まれた閲覧履歴のデータについて、我々にその情報が一切取得されることはありません。<br>【豊中高校 情報5班】</p>
   </footer>
   
-  <script>
-    const MAX_VIDEO_COUNT = 20;
-    const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // APIキーをここに設定
-    const VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
+</body>
+<script>
+const MAX_VIDEO_COUNT = 20;
+const API_KEY = 'AIzaSyCI1znNIR2N-Q8HxsXwpYV76G5Jmg1mnPE'; // APIキーをここに設定
+const VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
-    const CATEGORY_ID_MAP = {
-      '1': '映画とアニメ',
-      '2': '自動車と乗り物',
-      '10': '音楽',
-      '15': 'ペットと動物',
-      '17': 'スポーツ',
-      '19': '旅行とイベント',
-      '20': 'ゲーム',
-      '22': 'ブログ',
-      '23': 'コメディー',
-      '24': 'エンターテイメント',
-      '25': 'ニュースと政治',
-      '26': 'ハウツーとスタイル',
-      '27': '教育',
-      '28': '科学と技術',
-    };
+const CATEGORY_ID_MAP = {
+  '1': '映画とアニメ',
+  '2': '自動車と乗り物',
+  '10': '音楽',
+  '15': 'ペットと動物',
+  '17': 'スポーツ',
+  '19': '旅行とイベント',
+  '20': 'ゲーム',
+  '22': 'ブログ',
+  '23': 'コメディー',
+  '24': 'エンターテイメント',
+  '25': 'ニュースと政治',
+  '26': 'ハウツーとスタイル',
+  '27': '教育',
+  '28': '科学と技術',
+};
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const images = [
-        "assets/images/bubble1.png",
-        "assets/images/bubble2.png",
-        "assets/images/bubble3.png"
-      ];
-      const imageElement = document.getElementById('bubble-animation');
-      let currentIndex = 0;
-
-      // 画像を切り替える間隔 (ミリ秒)
-      const interval = 500; // 0.5秒ごとに切り替え
-
-      // 画像の切り替えロジック
-      setInterval(() => {
-        currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
-        imageElement.src = images[currentIndex]; // 画像を変更
-      }, interval);
-        function startBubbleAnimation() {
-
-      // 画像を表示
-      imageElement.style.display = 'block';
-          // 円グラフ描画後にアニメーションを開始
-        startBubbleAnimation();
-    }
+document.addEventListener('DOMContentLoaded', () => {
   const loadFileButton = document.getElementById('load-file');
   loadFileButton.addEventListener('click', () => {
     const input = document.createElement('input');
@@ -249,9 +212,9 @@ async function fetchCategoryName(categoryId) {
 
 async function fetchVideoCategory(videoId) {
   try {
-    const response = await fetch(${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY});
+    const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
     if (!response.ok) {
-      throw new Error(HTTPエラー！ステータス: ${response.status});
+      throw new Error(`HTTPエラー！ステータス: ${response.status}`);
     }
     const data = await response.json();
     if (data.items && data.items.length > 0) {
@@ -292,7 +255,7 @@ async function parseAndDisplayHistory(jsonText) {
   } catch (error) {
     console.error('履歴データの解析中にエラーが発生しました:', error);
     const pieChartContainer = document.getElementById('pie-chart');
-    pieChartContainer.innerHTML = エラーが発生しました: ${error.message};
+    pieChartContainer.innerHTML = `エラーが発生しました: ${error.message}`;
   }
 }
 
@@ -323,3 +286,4 @@ function drawPieChart(categoryCount) {
 }
 </script>
 </html>
+
