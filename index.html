@@ -321,7 +321,7 @@ function drawPieChart(categoryCount) {
 
   });
 }
-    // 上位3位のカテゴリー画像を表示
+  // 上位3位のカテゴリー画像を表示
 function displayCategoryBubbles(categoryCount) {
   // 上位3つのカテゴリーを取得
   const topCategories = Object.entries(categoryCount)
@@ -329,7 +329,7 @@ function displayCategoryBubbles(categoryCount) {
     .slice(0, 3); // 上位3つを取得
 
   const pieChartContainer = document.getElementById('pie-chart');
-
+  
   // 上位3つのカテゴリーの画像をバブルとして表示
   topCategories.forEach(([category, count], index) => {
     // CATEGORY_ID_MAPからカテゴリー名を取得
@@ -344,14 +344,23 @@ function displayCategoryBubbles(categoryCount) {
     bubble.alt = `${category} Bubble`;
     bubble.classList.add('top-category-bubble'); // アニメーションを適用
 
-    // 画像を親要素に追加
-    pieChartContainer.appendChild(bubble);
-    
-    // バブルの位置をランダムに設定
-    const xPosition = Math.random() * 100; // X軸のランダム位置
-    const yPosition = Math.random() * 100; // Y軸のランダム位置
-    bubble.style.left = `${xPosition}%`;
-    bubble.style.top = `${yPosition}%`;
+    // 画像が読み込まれた後に表示
+    bubble.onload = () => {
+      // バブルの位置をランダムに設定
+      const xPosition = Math.random() * 80; // X軸のランダム位置（80%以内）
+      const yPosition = Math.random() * 80; // Y軸のランダム位置（80%以内）
+      bubble.style.position = 'absolute'; // 絶対位置を指定
+      bubble.style.left = `${xPosition}%`;
+      bubble.style.top = `${yPosition}%`;
+
+      // 画像を親要素に追加
+      pieChartContainer.appendChild(bubble);
+    };
+
+    // 画像の読み込みエラーをハンドル（表示できない場合）
+    bubble.onerror = () => {
+      console.error(`画像の読み込みに失敗しました: ${imageUrl}`);
+    };
   });
 }
 
