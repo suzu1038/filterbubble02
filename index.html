@@ -111,14 +111,6 @@
   pointer-events: none; /* バブル画像がクリックなどを邪魔しないように */
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
   </style>  
 </head>
 <body>
@@ -168,7 +160,7 @@ const CATEGORY_ID_MAP = {
   '27': '教育',
   '28': '科学と技術',
 };
-
+  
   document.addEventListener('DOMContentLoaded', () => {
     const images = [
       "assets/images/bubble1.png",
@@ -319,87 +311,5 @@ function drawPieChart(categoryCount) {
 
   });
 }
-  // CATEGORY_IMAGE_MAP 定義
-const CATEGORY_IMAGE_MAP = {
-  1: 'category1.png',
-  2: 'category2.png',
-  10: 'category10.png',
-  15: 'category15.png',
-  17: 'category17.png',
-  19: 'category19.png',
-  20: 'category20.png',
-  22: 'category22.png',
-  23: 'category23.png',
-  24: 'category24.png',
-  25: 'category25.png',
-  26: 'category26.png',
-  27: 'category27.png',
-  28: 'category28.png',
-};
-
-// 上位3カテゴリのバブルを表示する
-function displayTopCategories(data) {
-  // データを割合順にソート（降順）
-  const sortedData = data.sort((a, b) => b.percentage - a.percentage);
-  
-  // 上位3つのカテゴリIDを取得
-  const topCategories = sortedData.slice(0, 3).map(item => item.categoryId);
-  
-  // 各カテゴリのバブルを作成
-  topCategories.forEach((categoryId, index) => {
-    createCategoryBubble(categoryId, index);
-  });
-}
-
-// バブル画像を表示する関数
-function createCategoryBubble(categoryId, index) {
-  const imageName = CATEGORY_IMAGE_MAP[categoryId];
-  
-  if (!imageName) return; // 該当する画像がない場合は処理しない
-
-  // 画像要素を作成
-  const bubble = document.createElement("img");
-  bubble.src = `assets/images/${imageName}`;  // 画像のパス
-  bubble.classList.add("top-category-bubble"); // スタイルを適用
-  
-  // バブルを表示するコンテナに追加
-  const container = document.getElementById("bubble-animation");
-  container.appendChild(bubble);
-
-  // アニメーションを開始
-  animateBubble(bubble, index);
-}
-
-// バブルアニメーションを適用する関数
-function animateBubble(element, index) {
-  const container = document.getElementById('bubble-animation');
-  const containerWidth = container.offsetWidth;
-  const containerHeight = container.offsetHeight;
-
-  // 固定位置を計算（上位3カテゴリが横に並ぶように配置）
-  const positions = [
-    { x: containerWidth / 4 - 50, y: containerHeight / 2 - 50 },
-    { x: containerWidth / 2 - 50, y: containerHeight / 2 - 50 },
-    { x: (3 * containerWidth) / 4 - 50, y: containerHeight / 2 - 50 }
-  ];
-
-  const { x, y } = positions[index] || { x: 0, y: 0 };
-
-  element.style.position = 'absolute';
-  element.style.left = `${x}px`;
-  element.style.top = `${y}px`;
-
-  // 浮遊アニメーション
-  setInterval(() => {
-    element.style.transform = `translateY(-10px)`; // 上に移動
-    setTimeout(() => {
-      element.style.transform = `translateY(0px)`; // 元の位置に戻る
-    }, 2000); // 2秒後に戻す
-  }, 4000); // 4秒毎に繰り返す
-}
-
-// 上位3カテゴリのバブルを表示
-displayTopCategories(pieChartData);
-
 </script>
 </html>
