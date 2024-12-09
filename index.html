@@ -93,8 +93,8 @@
   
     /* 円グラフのスタイル */
     #pie-chart {
-      width: 600px;
-      height: 600px;
+      width: 800px;
+      height: 800px;
       border: 3px solid #ddd;
       border-radius: 15px;
       background-color: #f9f9f9;
@@ -290,12 +290,6 @@ function drawPieChart(categoryCount) {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
       legend: { position: 'bottom' },
-      chartArea: {
-        width: '100%', // 幅を1.5倍に
-        height: '100%', // 高さを1.5倍に
-        left: '0%', // 左右余白
-        top: '0%', // 上下余白
-      },
     };
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
