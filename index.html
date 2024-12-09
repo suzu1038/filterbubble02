@@ -93,8 +93,8 @@
   
     /* 円グラフのスタイル */
     #pie-chart {
-      width: 700px;
-      height: 700px;
+      width: 600px;
+      height: 600px;
       border: 3px solid #ddd;
       border-radius: 15px;
       background-color: #f9f9f9;
@@ -124,7 +124,9 @@
     <img id="bubble-animation" src="assets/images/bubble1.png" alt="Bubble Image">
     <div id="pie-chart">Loading...</div>
   </div>
-  
+
+  <script src="popup.js"></script>
+
   <footer style="background-color: #333; color: white; padding: 20px; text-align: center; font-size: 15px; line-height: 1.5;">
     <p>本サービスでは、ユーザーのYouTubeの視聴履歴を基にカテゴリーを分析し、<br>ユーザー自身がフィルターバブル(カテゴリーの偏り)に気づき、問題解決に役立ててもらうことを目的としています。<br>読み込まれた閲覧履歴のデータについて、我々にその情報が一切取得されることはありません。<br>【豊中高校 情報5班】</p>
   </footer>
@@ -290,7 +292,13 @@ function drawPieChart(categoryCount) {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
       legend: { position: 'bottom' },
+      chartArea: {
+        width: '120%', // 幅を1.5倍に
+        height: '120%', // 高さを1.5倍に
+        left: '20%', // 左右余白
+        top: '20%', // 上下余白
       },
+    };
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
