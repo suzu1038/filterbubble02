@@ -119,7 +119,7 @@
   </div>
   <h1>下のボタンを押してZIPファイルを読み込もう</h1>
   <button id="load-file">Load ZIP File</button>
-
+  
   <div id="container">
     <img id="bubble-image" src="assets/images/bubble1.png" alt="Bubble Image">
     <div id="pie-chart">Loading...</div>
@@ -153,6 +153,27 @@ const CATEGORY_ID_MAP = {
   '27': '教育',
   '28': '科学と技術',
 };
+<script>
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = [
+      "assets/images/bubble1.png",
+      "assets/images/bubble2.png",
+      "assets/images/bubble3.png"
+    ];
+    const imageElement = document.getElementById('bubble-animation');
+    let currentIndex = 0;
+
+    // 画像を切り替える間隔 (ミリ秒)
+    const interval = 500; // 0.5秒ごとに切り替え
+
+    // 画像の切り替えロジック
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
+      imageElement.src = images[currentIndex]; // 画像を変更
+    }, interval);
+  });
+</script>
 
 document.addEventListener('DOMContentLoaded', () => {
   const loadFileButton = document.getElementById('load-file');
