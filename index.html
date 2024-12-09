@@ -277,7 +277,6 @@ async function parseAndDisplayHistory(jsonText) {
     pieChartContainer.innerHTML = `エラーが発生しました: ${error.message}`;
   }
 }
-
 function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
@@ -292,7 +291,13 @@ function drawPieChart(categoryCount) {
     const options = {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
-      legend: { position: 'bottom' }
+      legend: { position: 'bottom' },
+      chartArea: {
+        width: '150%', // 幅を1.5倍に
+        height: '150%', // 高さを1.5倍に
+        left: '10%', // 左右余白
+        top: '10%', // 上下余白
+      },
     };
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
