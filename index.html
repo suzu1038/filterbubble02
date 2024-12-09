@@ -102,6 +102,23 @@
       position: relative;
       z-index: 1; /* 画像の下に配置 */
     }
+    
+    .top-category-bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.9;
+  animation: float 4s infinite ease-in-out;
+  pointer-events: none; /* バブル画像がクリックなどを邪魔しないように */
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
   </style>  
 </head>
 <body>
@@ -294,11 +311,70 @@ function drawPieChart(categoryCount) {
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
-
+    
+    // 上位3位のカテゴリーを取得して画像を表示
+    displayTopCategories(categoryCount);
+    
     // 円グラフが描画された後に画像を表示
     document.getElementById('bubble-animation').style.display = 'block';
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
+
   });
 }
+    
+    function displayTopCategories(categoryCount) {
+  // カテゴリを配列に変換し、降順に並び替える
+  const sortedCategories = Object.entries(categoryCount)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3); // 上位3つを取得
+
+  const container = document.getElementById('container');
+
+  // 上位3つのカテゴリー画像を重ねて表示
+  sortedCategories.forEach(([category, count], index) => {
+    const categoryId = Object.keys(CATEGORY_ID_MAP).find(
+      id => CATEGORY_ID_MAP[id] === category
+    );
+
+    if (categoryId) {
+      // 新しいバブル画像を作成
+      const bubbleImage = document.createElement('img');
+      bubbleImage.src = `assets/images/category${categoryId}.png`;
+      bubbleImage.alt = category;
+      bubbleImage.className = 'top-category-bubble';
+      bubbleImage.style.position = 'absolute'; // `bubble-animation`の上に配置
+      bubbleImage.style.zIndex = 20;          // レイヤー順を指定
+      bubbleImage.style.width = '100px';      // バブルの幅
+      bubbleImage.style.height = '100px';     // バブルの高さ
+
+      container.appendChild(bubbleImage);
+
+      // 初期位置とアニメーション
+      animateBubble(bubbleImage, index);
+    }
+  });
+}
+function animateBubble(element, index) {
+  // ランダムな初期位置
+  const container = document.getElementById('container');
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
+
+  // 初期位置
+  const x = Math.random() * (containerWidth - 100); // バブルサイズを考慮
+  const y = Math.random() * (containerHeight - 100);
+
+  element.style.left = `${x}px`;
+  element.style.top = `${y}px`;
+
+  // アニメーションを繰り返す
+  setInterval(() => {
+    const newX = Math.random() * (containerWidth - 100);
+    const newY = Math.random() * (containerHeight - 100);
+
+    element.style.transform = `translate(${newX - x}px, ${newY - y}px)`;
+  }, 2000 * (index + 1)); // 時間差でアニメーション開始
+}
+
 </script>
 </html>
