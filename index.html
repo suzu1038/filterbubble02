@@ -23,20 +23,35 @@
       letter-spacing: 2px;
     }
   
-    /* メインタイトルのスタイル */
-    #main-title {
-      font-size: 43px; /* 文字を大きく */
-      font-weight: bold;
-      color: #000; /* 文字色を黒に設定 */
-      background-color: #6ABBC6; /* 背景色を #6ABBC6 に設定 */
-      padding: 25px; /* 余白を大きく */
-      border-radius: 10px; /* 角を丸く */
-      width: 50%; /* タイトルの幅を調整 */
-      text-align: center; /* 中央揃え */
-      margin-bottom: 40px; /* タイトルとボタンの間に余白を追加 */
-      line-height: 1.5; /* 行間を調整して2行に見やすくする */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
+  
+#main-title {
+  position: relative;
+  padding: 1rem .5rem;
+  font-size: 43px; /* 必要に応じて調整 */
+  font-weight: bold;
+  color: #000; /* 文字色を黒に設定 */
+  background-color: #6ABBC6; /* 背景色を #6ABBC6 に設定 */
+  padding: 25px; /* 余白を大きく */
+  border-radius: 10px; /* 角を丸く */
+  width: 50%; /* タイトルの幅を調整 */
+  text-align: center; /* 中央揃え */
+  margin-bottom: 40px; /* タイトルとボタンの間に余白を追加 */
+  line-height: 1.5; /* 行間を調整して2行に見やすくする */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#main-title:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  content: '';
+  border-radius: 3px;
+  background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
+  background-image: -webkit-linear-gradient(right, #2af598 0%, #009efd 100%);
+  background-image: linear-gradient(to left, #2af598 0%, #009efd 100%);
+}
 
     #instruction {
     font-size: 30px; /* 元の16pxから1.5倍 */
@@ -360,8 +375,11 @@ function displayCategoryImages(categoryCount) {
   imageContainer.style.flexWrap = 'wrap';
   imageContainer.style.justifyContent = 'center';
   imageContainer.style.marginTop = '20px';
-  imageContainer.style.position = 'relative';
-  imageContainer.style.zIndex = '2';
+  imageContainer.style.position = 'absolute';  // absoluteで配置
+  imageContainer.style.zIndex = '9999';  // z-indexを大きな値に設定
+  imageContainer.style.top = '50%';  // 中央に配置するために位置を調整
+  imageContainer.style.left = '50%';
+  imageContainer.style.transform = 'translate(-50%, -50%)'; // 中央揃え
 
   selectedCategories.forEach(({ category = '' }) => {
     // categoryが空の場合はスキップ
@@ -371,7 +389,7 @@ function displayCategoryImages(categoryCount) {
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = category;
-    img.style.width = '150px'; 
+    img.style.width = '150px';
     img.style.height = 'auto';
     img.style.margin = '10px';
     img.style.borderRadius = '10px';
@@ -382,6 +400,6 @@ function displayCategoryImages(categoryCount) {
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
-
+  
 </script>
 </html>
