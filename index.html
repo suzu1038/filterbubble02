@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+  <head>
   <meta charset="UTF-8">
   <title>あなたのYouTubeの閲覧履歴からフィルターバブルを実感しよう</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -15,8 +15,8 @@
       align-items: center;
       justify-content: flex-start; /* 上部にコンテンツを寄せる */
       height: auto; /* 高さを自動調整 */
-      background-color: #252935; /* 背景色を #252935 に設定 */
-      color: #fff; /* 文字色を白に設定 */
+      background-color: #F0F2FF; /* 背景色を #F0F2FF に設定 */
+      color: #000; /* 文字色を黒に設定 */
       overflow: auto; /* スクロールを有効にする */
       position: relative;
       padding-top: 50px; /* 上部に余白を追加 */
@@ -27,7 +27,7 @@
     #main-title {
       font-size: 43px; /* 文字を大きく */
       font-weight: bold;
-      color: #fff;
+      color: #000; /* 文字色を黒に設定 */
       background-color: #6ABBC6; /* 背景色を #6ABBC6 に設定 */
       padding: 25px; /* 余白を大きく */
       border-radius: 10px; /* 角を丸く */
@@ -41,7 +41,7 @@
     #instruction {
     font-size: 30px; /* 元の16pxから1.5倍 */
     font-weight: bold;
-    color: #fff;
+    color: #000; /* 文字色を黒に設定 */
     background-color: #444;
     padding: 22.5px; /* 元の15pxから1.5倍 */
     border-radius: 15px; /* 元の10pxから1.5倍 */
@@ -56,7 +56,7 @@
     /* ボタンのスタイル */
     h1 {
       font-size: 30px;
-      color: #fff;
+      color: #000; /* 文字色を黒に設定 */
       margin-bottom: 45px; /* タイトルとボタンの間に大きな余白 */
     }
   
@@ -67,7 +67,7 @@
       transition: background-color 0.3s ease;
       background-color: #6e7dff;
       border: none;
-      color: white;
+      color: #fff; /* ボタン内の文字色は白のまま */
       border-radius: 7.5px;
       margin-bottom: 45px; /* ボタンと画像の間に余白を追加 */
     }
@@ -137,7 +137,7 @@
     <img id="bubble-animation" src="assets/images/bubble1.png" alt="Bubble Image">
     <div id="pie-chart">Loading...</div>
   </div>
-
+  
   <footer style="background-color: #333; color: white; padding: 20px; text-align: center; font-size: 19px; line-height: 1.5;">
     <p>本サービスでは、ユーザーのYouTubeの視聴履歴を基にカテゴリーを分析し、<br>ユーザー自身がフィルターバブル(カテゴリーの偏り)に気づき、問題解決に役立ててもらうことを目的としています。<br>読み込まれた閲覧履歴のデータについて、我々にその情報が一切取得されることはありません。<br>【豊中高校 情報5班】</p>
   </footer>
