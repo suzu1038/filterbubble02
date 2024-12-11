@@ -44,7 +44,7 @@
   bottom: 0px; /* タイトルの下に配置 */
   left: 0;
   width: 100%;
-  height: 6px; /* 下線の太さ */
+  height: 10px; /* 下線の太さ */
   content: '';
   border-radius: 3px;
   background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
@@ -107,43 +107,56 @@
   position: relative; /* bubble-animationにもpositionを設定 */
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
-
+    
 #image-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-  position: absolute; /* absoluteで配置 */
-  z-index: 2; /* 画像をbubble-animationの上に配置 */
-  top: 50%;  /* 中央に配置 */
-  left: 50%;
-  transform: translate(-50%, -50%); /* 中央揃え */
+  position: relative; /* 画像を絶対位置で配置するための基準 */
+  width: 100%; /* 必要に応じて調整 */
+  height: 400px; /* 画像配置エリアの高さを設定 */
+  z-index: 2;
 }
-/* 共通のスタイル */
+
 .category-image {
-  position: relative; /* 必要に応じて位置を調整 */
+  position: absolute; /* 個別に配置 */
+  width: 150px;
+  height: auto;
+  margin: 0; /* 余白をリセット */
+  border-radius: 10px;
 }
 
-/* 1位の画像のスタイル */
-.category-image.rank-1 {
-  top: -20px; /* 上方向に20pxずらす */
-  left: 0; /* 必要に応じて左方向の位置を調整 */
-  z-index: 3; /* 最前面に配置 */
+/* 順位ごとの初期位置設定 */
+.rank-1 {
+  top: 50px;
+  left: 100px;
 }
 
-/* 6位の画像のスタイル */
-.category-image.rank-6 {
-  top: 10px; /* 下方向に10pxずらす */
-  left: 50px; /* 左方向に50pxずらす */
+.rank-2 {
+  top: 50px;
+  left: 300px;
 }
 
-/* その他順位ごとのスタイル */
-.category-image.rank-2 {
-  top: -10px;
+.rank-3 {
+  top: 50px;
+  left: 500px;
 }
 
-.category-image.rank-6 {
-  top: 20px;
+.rank-5 {
+  top: 200px;
+  left: 200px;
+}
+
+.rank-6 {
+  top: 200px;
+  left: 400px;
+}
+
+.rank-7 {
+  top: 300px;
+  left: 300px;
+}
+
+.rank-8 {
+  top: 300px;
+  left: 500px;
 }
 
     /* 円グラフのスタイル */
@@ -157,7 +170,7 @@
       position: relative;
       z-index: 1; /* 画像の下に配置 */
     }
-    
+
 
   </style>  
 </head>
