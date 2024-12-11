@@ -85,15 +85,25 @@
       align-items: center;
       position: relative;
     }
-  
-    /* 画像のスタイル */
-    #bubble-animation {
-      width: 700px; /* 画像の幅をさらに大きく */
-      height: auto;
-      margin-bottom: 40px; /* 円グラフとの間に十分なスペースを追加 */
-      display: none;
-    }
-  
+
+  #bubble-animation {
+  width: 700px; 
+  height: auto;
+  margin-bottom: 40px; 
+  display: block; /* 必要に応じてblockに変更 */
+  position: relative; /* bubble-animationにもpositionを設定 */
+  z-index: 1; /* 1に設定して、imageContainerより下に配置 */
+}
+
+#image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative; /* 親要素に相対位置を設定 */
+  z-index: 2; /* bubble-animationより上に配置 */
+}
+
     /* 円グラフのスタイル */
     #pie-chart {
       width: 800px;
@@ -324,7 +334,8 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
-// 円グラフの結果から、指定された順位のカテゴリー画像を表示
+
+  // 円グラフの結果から、指定された順位のカテゴリー画像を表示
 function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount)
     .sort((a, b) => b[1] - a[1]) // 高い順に並べ替え
@@ -342,12 +353,13 @@ function displayCategoryImages(categoryCount) {
   ];
 
   const imageContainer = document.createElement('div');
+  imageContainer.id = 'image-container'; // idを設定して、CSSで指定したスタイルを適用
   imageContainer.style.display = 'flex';
   imageContainer.style.flexWrap = 'wrap';
   imageContainer.style.justifyContent = 'center';
   imageContainer.style.marginTop = '20px';
-  imageContainer.style.position = 'relative'; // 親要素に相対位置を設定
-  imageContainer.style.zIndex = '2'; // bubble-animationより上に表示するためz-indexを設定
+  imageContainer.style.position = 'relative'; // 位置設定
+  imageContainer.style.zIndex = '2'; // bubble-animationより上に表示
 
   selectedCategories.forEach(({ category }) => {
     const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
@@ -366,5 +378,6 @@ function displayCategoryImages(categoryCount) {
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
+
 </script>
 </html>
