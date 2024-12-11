@@ -108,55 +108,43 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
     
+
 #image-container {
-  position: relative; /* 画像を絶対位置で配置するための基準 */
-  width: 100%; /* 必要に応じて調整 */
-  height: 400px; /* 画像配置エリアの高さを設定 */
-  z-index: 2;
+ display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  position: absolute; /* absoluteで配置 */
+  z-index: 2; /* 画像をbubble-animationの上に配置 */
+  top: 50%;  /* 中央に配置 */
+  left: 50%;
+  transform: translate(-50%, -50%); /* 中央揃え */
 }
-
+/* 共通のスタイル */
 .category-image {
-  position: absolute; /* 個別に配置 */
-  width: 150px;
-  height: auto;
-  margin: 0; /* 余白をリセット */
-  border-radius: 10px;
+  position: relative; /* 必要に応じて位置を調整 */
 }
 
-/* 順位ごとの初期位置設定 */
-.rank-1 {
-  top: 50px;
-  left: 100px;
+/* 1位の画像のスタイル */
+.category-image.rank-1 {
+  top: -20px; /* 上方向に20pxずらす */
+  left: 0; /* 必要に応じて左方向の位置を調整 */
+  z-index: 3; /* 最前面に配置 */
 }
 
-.rank-2 {
-  top: 50px;
-  left: 300px;
+/* 6位の画像のスタイル */
+.category-image.rank-6 {
+  top: 10px; /* 下方向に10pxずらす */
+  left: 50px; /* 左方向に50pxずらす */
 }
 
-.rank-3 {
-  top: 50px;
-  left: 500px;
+/* その他順位ごとのスタイル */
+.category-image.rank-2 {
+  top: -10px;
 }
 
-.rank-5 {
-  top: 200px;
-  left: 200px;
-}
-
-.rank-6 {
-  top: 200px;
-  left: 400px;
-}
-
-.rank-7 {
-  top: 300px;
-  left: 300px;
-}
-
-.rank-8 {
-  top: 300px;
-  left: 500px;
+.category-image.rank-6 {
+  top: 20px;
 }
 
     /* 円グラフのスタイル */
@@ -170,7 +158,7 @@
       position: relative;
       z-index: 1; /* 画像の下に配置 */
     }
-
+    
 
   </style>  
 </head>
@@ -398,7 +386,7 @@ function drawPieChart(categoryCount) {
   // 上位3つのカテゴリを取得
   const topCategories = sortedCategories.slice(0, 3);
 
-  // 上位3つに加えて5位、6位、7位、8位を取得
+  // 上位3つに加えて5位、6位、7位、8位を取得（足りない場合はundefinedを回避）
   const selectedCategories = [
     topCategories[0], // 1位
     topCategories[1], // 2位
@@ -409,9 +397,12 @@ function drawPieChart(categoryCount) {
     sortedCategories[7] || {}, // 8位
   ];
 
-  // コンテナ作成
   const imageContainer = document.createElement('div');
   imageContainer.id = 'image-container';
+  imageContainer.style.display = 'flex';
+  imageContainer.style.flexWrap = 'wrap';
+  imageContainer.style.justifyContent = 'center';
+  imageContainer.style.marginTop = '20px';
 
   selectedCategories.forEach(({ category = '' }, index) => {
     // categoryが空の場合はスキップ
@@ -421,10 +412,16 @@ function drawPieChart(categoryCount) {
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = category;
+    img.style.width = '150px';
+    img.style.height = 'auto';
+    img.style.margin = '10px';
+    img.style.borderRadius = '10px';
 
-    // カテゴリーごとのスタイル（必要ならここで位置を個別調整）
-    img.style.order = index; // 初期位置を揃えるために順序を設定
-    img.style.flexBasis = 'auto'; // フレックスアイテムのサイズ設定
+    // 順位に応じたクラスを追加
+    img.className = `category-image rank-${index + 1}`;
+
+    // データ属性を追加（必要に応じて）
+    img.setAttribute('data-rank', index + 1);
 
     imageContainer.appendChild(img);
   });
