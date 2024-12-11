@@ -378,9 +378,10 @@ function drawPieChart(categoryCount) {
   imageContainer.id = 'image-container'; // 修正されたCSSが適用される
   imageContainer.style.position = 'absolute'; // 必要なら手動で追加
 
-  sortedCategories.forEach(({ category }, index) => {
-    if (!category) return; // カテゴリが存在しない場合スキップ
-
+    selectedCategories.forEach(({ category = '' }, index) => {
+    // categoryが空の場合はスキップ
+    if (!category) return;
+      
     const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
     const img = document.createElement('img');
     img.src = imagePath;
