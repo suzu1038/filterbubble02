@@ -123,9 +123,6 @@
   top: 0;
   left: 0;
 }
-.category-image.rank-1 {
-  top: 30%; /* 1位の場合の位置 */
-}
 
     /* 円グラフのスタイル */
     #pie-chart {
@@ -394,11 +391,8 @@ function drawPieChart(categoryCount) {
     img.style.margin = '10px';
     img.style.borderRadius = '10px';
       
-// 順位に応じてクラスを付与
-images.forEach((image, index) => {
-  const img = document.createElement('img');
-  img.src = image.src;
-  img.className = `category-image rank-${index + 1}`; // 1, 2, 3 と順位に応じたクラスを設定
+images.forEach((img, index) => {
+  img.className = `category-image rank-${index + 1}`; // 順位ごとにクラスを付与
   imageContainer.appendChild(img);
 });
       
