@@ -37,18 +37,6 @@
       line-height: 1.5; /* 行間を調整して2行に見やすくする */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
-#main-title:after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  content: '';
-  border-radius: 3px;
-  background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
-  background-image: -webkit-linear-gradient(right, #2af598 0%, #009efd 100%);
-  background-image: linear-gradient(to left, #2af598 0%, #009efd 100%);
-}
 
     #instruction {
     font-size: 30px; /* 元の16pxから1.5倍 */
@@ -346,39 +334,44 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
-
-  // 円グラフの結果から、指定された順位のカテゴリー画像を表示
+  
 function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount)
     .sort((a, b) => b[1] - a[1]) // 高い順に並べ替え
     .map(([category, count]) => ({ category, count }));
 
-  const topCategories = sortedCategories.slice(0, 3); // 上位3つのカテゴリ
+  // 上位3つのカテゴリを取得
+  const topCategories = sortedCategories.slice(0, 3); 
+
+  // 上位3つに加えて5位、6位、10位、12位を取得（足りない場合はundefinedを回避）
   const selectedCategories = [
-    topCategories[0],
-    topCategories[1],
-    topCategories[2],
-    sortedCategories[4], // 5位
-    sortedCategories[5], // 6位
-    sortedCategories[9], // 10位
-    sortedCategories[11], // 12位
+    topCategories[0],  // 1位
+    topCategories[1],  // 2位
+    topCategories[2],  // 3位
+    sortedCategories[4] || {}, // 5位（undefinedの場合は空のオブジェクトを使用）
+    sortedCategories[5] || {}, // 6位（undefinedの場合は空のオブジェクトを使用）
+    sortedCategories[6] || {}, // 7位（undefinedの場合は空のオブジェクトを使用）
+    sortedCategories[7] || {}, // 8位（undefinedの場合は空のオブジェクトを使用）
   ];
 
   const imageContainer = document.createElement('div');
-  imageContainer.id = 'image-container'; // idを設定して、CSSで指定したスタイルを適用
+  imageContainer.id = 'image-container';
   imageContainer.style.display = 'flex';
   imageContainer.style.flexWrap = 'wrap';
   imageContainer.style.justifyContent = 'center';
   imageContainer.style.marginTop = '20px';
-  imageContainer.style.position = 'relative'; // 位置設定
-  imageContainer.style.zIndex = '2'; // bubble-animationより上に表示
+  imageContainer.style.position = 'relative';
+  imageContainer.style.zIndex = '2';
 
-  selectedCategories.forEach(({ category }) => {
+  selectedCategories.forEach(({ category = '' }) => {
+    // categoryが空の場合はスキップ
+    if (!category) return;
+    
     const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = category;
-    img.style.width = '150px';  // 画像の幅を調整
+    img.style.width = '150px'; 
     img.style.height = 'auto';
     img.style.margin = '10px';
     img.style.borderRadius = '10px';
@@ -386,7 +379,6 @@ function displayCategoryImages(categoryCount) {
     imageContainer.appendChild(img);
   });
 
-  // 既存の画像の位置に追加
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
