@@ -108,21 +108,20 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
     
-
 #image-container {
- display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-  position: absolute; /* absoluteで配置 */
-  z-index: 2; /* 画像をbubble-animationの上に配置 */
-  top: 50%;  /* 中央に配置 */
+  position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 中央揃え */
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  z-index: 2;
 }
-/* 共通のスタイル */
+
 .category-image {
-  position: relative; /* 必要に応じて位置を調整 */
+  position: relative; /* すべての画像を同じ位置に重ねる */
+  top: 0;
+  left: 0;
 }
     
     /* 円グラフのスタイル */
@@ -375,13 +374,10 @@ function drawPieChart(categoryCount) {
     sortedCategories[7] || {}, // 8位
   ];
 
-  const imageContainer = document.createElement('div');
-  imageContainer.id = 'image-container';
-  imageContainer.style.display = 'flex';
-  imageContainer.style.flexWrap = 'wrap';
-  imageContainer.style.justifyContent = 'center';
-  imageContainer.style.marginTop = '20px';
-
+     const imageContainer = document.createElement('div');
+  imageContainer.id = 'image-container'; // 修正されたCSSが適用される
+  imageContainer.style.position = 'absolute'; // 必要なら手動
+    
   selectedCategories.forEach(({ category = '' }, index) => {
     // categoryが空の場合はスキップ
     if (!category) return;
@@ -397,17 +393,12 @@ function drawPieChart(categoryCount) {
 
     // 順位に応じたクラスを追加
     img.className = `category-image rank-${index + 1}`;
-
-    // データ属性を追加（必要に応じて）
-    img.setAttribute('data-rank', index + 1);
-
-    imageContainer.appendChild(img);
+imageContainer.appendChild(img);
   });
 
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
-
   
 </script>
 </html>
