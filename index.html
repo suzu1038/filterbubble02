@@ -398,7 +398,7 @@ function drawPieChart(categoryCount) {
   // 上位3つのカテゴリを取得
   const topCategories = sortedCategories.slice(0, 3);
 
-  // 上位3つに加えて5位、6位、7位、8位を取得（足りない場合はundefinedを回避）
+  // 上位3つに加えて5位、6位、7位、8位を取得
   const selectedCategories = [
     topCategories[0], // 1位
     topCategories[1], // 2位
@@ -409,12 +409,9 @@ function drawPieChart(categoryCount) {
     sortedCategories[7] || {}, // 8位
   ];
 
+  // コンテナ作成
   const imageContainer = document.createElement('div');
   imageContainer.id = 'image-container';
-  imageContainer.style.display = 'flex';
-  imageContainer.style.flexWrap = 'wrap';
-  imageContainer.style.justifyContent = 'center';
-  imageContainer.style.marginTop = '20px';
 
   selectedCategories.forEach(({ category = '' }, index) => {
     // categoryが空の場合はスキップ
@@ -424,16 +421,10 @@ function drawPieChart(categoryCount) {
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = category;
-    img.style.width = '150px';
-    img.style.height = 'auto';
-    img.style.margin = '10px';
-    img.style.borderRadius = '10px';
 
-    // 順位に応じたクラスを追加
-    img.className = `category-image rank-${index + 1}`;
-
-    // データ属性を追加（必要に応じて）
-    img.setAttribute('data-rank', index + 1);
+    // カテゴリーごとのスタイル（必要ならここで位置を個別調整）
+    img.style.order = index; // 初期位置を揃えるために順序を設定
+    img.style.flexBasis = 'auto'; // フレックスアイテムのサイズ設定
 
     imageContainer.appendChild(img);
   });
