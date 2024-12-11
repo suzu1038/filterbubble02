@@ -98,16 +98,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
-
-  #bubble-animation {
+    
+#bubble-animation {
   width: 700px; 
   height: auto;
   margin-bottom: 40px; 
   display: none; /* 必要に応じてblockに変更 */
   position: relative; /* bubble-animationにもpositionを設定 */
-  z-index: 1; /* 1に設定して、imageContainerより下に配置 */
+  z-index: 1; /* bubble-animationはz-index: 1 */
 }
 
 #image-container {
@@ -115,8 +114,11 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
-  position: relative; /* 親要素に相対位置を設定 */
-  z-index: 2; /* bubble-animationより上に配置 */
+  position: absolute; /* absoluteで配置 */
+  z-index: 2; /* 画像をbubble-animationの上に配置 */
+  top: 50%;  /* 中央に配置 */
+  left: 50%;
+  transform: translate(-50%, -50%); /* 中央揃え */
 }
 
     /* 円グラフのスタイル */
@@ -376,7 +378,7 @@ function displayCategoryImages(categoryCount) {
   imageContainer.style.justifyContent = 'center';
   imageContainer.style.marginTop = '20px';
   imageContainer.style.position = 'absolute';  // absoluteで配置
-  imageContainer.style.zIndex = '9999';  // z-indexを大きな値に設定
+  imageContainer.style.zIndex = '2';  // z-indexを大きな値に設定
   imageContainer.style.top = '50%';  // 中央に配置するために位置を調整
   imageContainer.style.left = '50%';
   imageContainer.style.transform = 'translate(-50%, -50%)'; // 中央揃え
