@@ -108,20 +108,43 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
     
+
 #image-container {
-  position: absolute;
-  top: 50%;
+ display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  position: absolute; /* absoluteで配置 */
+  z-index: 2; /* 画像をbubble-animationの上に配置 */
+  top: 50%;  /* 中央に配置 */
   left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center; /* 中央揃え */
-  z-index: 2;
+  transform: translate(-50%, -50%); /* 中央揃え */
+}
+/* 共通のスタイル */
+.category-image {
+  position: relative; /* 必要に応じて位置を調整 */
 }
 
-.category-image {
-  position: absolute; /* すべての画像を同じ位置に重ねる */
-  top: 0;
-  left: 0;
+/* 1位の画像のスタイル */
+.category-image.rank-1 {
+  top: -20px; /* 上方向に20pxずらす */
+  left: 0; /* 必要に応じて左方向の位置を調整 */
+  z-index: 3; /* 最前面に配置 */
+}
+
+/* 6位の画像のスタイル */
+.category-image.rank-6 {
+  top: 10px; /* 下方向に10pxずらす */
+  left: 50px; /* 左方向に50pxずらす */
+}
+
+/* その他順位ごとのスタイル */
+.category-image.rank-2 {
+  top: -10px;
+}
+
+.category-image.rank-6 {
+  top: 20px;
 }
 
     /* 円グラフのスタイル */
@@ -373,15 +396,18 @@ function drawPieChart(categoryCount) {
     sortedCategories[6] || {}, // 7位
     sortedCategories[7] || {}, // 8位
   ];
-    
- const imageContainer = document.createElement('div');
-  imageContainer.id = 'image-container'; // 修正されたCSSが適用される
-  imageContainer.style.position = 'absolute'; // 必要なら手動で追加
 
-    selectedCategories.forEach(({ category = '' }, index) => {
+  const imageContainer = document.createElement('div');
+  imageContainer.id = 'image-container';
+  imageContainer.style.display = 'flex';
+  imageContainer.style.flexWrap = 'wrap';
+  imageContainer.style.justifyContent = 'center';
+  imageContainer.style.marginTop = '20px';
+
+  selectedCategories.forEach(({ category = '' }, index) => {
     // categoryが空の場合はスキップ
     if (!category) return;
-      
+
     const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
     const img = document.createElement('img');
     img.src = imagePath;
@@ -390,15 +416,21 @@ function drawPieChart(categoryCount) {
     img.style.height = 'auto';
     img.style.margin = '10px';
     img.style.borderRadius = '10px';
-      
-images.forEach((img, index) => {
-  img.className = `category-image rank-${index + 1}`; // 順位ごとにクラスを付与
-  imageContainer.appendChild(img);
-});
-      
+
+    // 順位に応じたクラスを追加
+    img.className = `category-image rank-${index + 1}`;
+
+    // データ属性を追加（必要に応じて）
+    img.setAttribute('data-rank', index + 1);
+
+    imageContainer.appendChild(img);
+  });
+
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
+
   
 </script>
 </html>
+
