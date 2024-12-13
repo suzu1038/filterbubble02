@@ -108,33 +108,21 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
     
-  #image-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-    z-index: 2;
-  }
+#image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  z-index: 2;
+}
 
-  .category-image {
-    width: 150px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .rank-1 {
-    border: 4px solid gold;
-  }
-
-  .rank-2 {
-    border: 4px solid silver;
-  }
-
-  .rank-3 {
-    border: 4px solid bronze;
-  }
-
+.category-image {
+  position: absolute; /* すべての画像を同じ位置に重ねる */
+  top: 0;
+  left: 0;
+}
     
     /* 円グラフのスタイル */
     #pie-chart {
@@ -372,6 +360,8 @@ function drawPieChart(categoryCount) {
     .sort((a, b) => b[1] - a[1]) // 高い順に並べ替え
     .map(([category, count]) => ({ category, count }));
 
+  // 上位3つのカテゴリを取得
+  const topCategories = sortedCategories.slice(0, 3);
 
   // 上位3つに加えて5位、6位、7位、8位を取得（足りない場合はundefinedを回避）
   const selectedCategories = [
@@ -401,27 +391,14 @@ function drawPieChart(categoryCount) {
     img.style.margin = '10px';
     img.style.borderRadius = '10px';
 
-      const existingContainer = document.getElementById('image-container');
-    if (existingContainer) existingContainer.innerHTML = ''; // 既存の内容をクリア
-    const imageContainer = existingContainer || document.createElement('div');
-    imageContainer.id = 'image-container';
+    // 順位に応じたクラスを追加
+    img.className = `category-image rank-${index + 1}`;
+imageContainer.appendChild(img);
+  });
 
-    topCategories.forEach(({ category }, index) => {
-      if (!CATEGORY_IMAGES[category]) return; // 無効なカテゴリはスキップ
-
-      const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
-      const img = document.createElement('img');
-      img.src = imagePath;
-      img.alt = category;
-      img.className = `category-image rank-${index + 1}`; // 順位ごとにクラスを設定
-      imageContainer.appendChild(img);
-    });
-
-    // 親コンテナに追加
-    const container = document.getElementById('container');
-    if (!existingContainer) container.appendChild(imageContainer);
-  }
+  const container = document.getElementById('container');
+  container.appendChild(imageContainer);
+}
   
 </script>
 </html>
-
