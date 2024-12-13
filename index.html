@@ -348,7 +348,7 @@ function displayCategoryImages(categoryCount) {
   // 上位3位までの画像を表示する例
   const topImagesContainer = document.createElement('div');
   topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
-  topImagesContainer.style.top = '45%';  // 真ん中に配置
+  topImagesContainer.style.top = '38%';  // 真ん中に配置
   topImagesContainer.style.left = '45%'; // 真ん中に配置
   topImagesContainer.style.transform = 'translate(0%, 0%)';  // 真ん中に合わせる
   topImagesContainer.style.display = 'flex';
@@ -359,8 +359,8 @@ function displayCategoryImages(categoryCount) {
   // 各画像の配置を三角形の頂点になるように
   const positions = [
     { top: '100px', left: '-130px' },  // 1位の画像位置
-    { top: '-100px', left: '0px' },    // 2位の画像位置
-    { top: '100px', left: '130px' }   // 3位の画像位置
+    { top: '-120px', left: '0px' },    // 2位の画像位置
+    { top: '0px', left: '130px' }   // 3位の画像位置
   ];
 
   // ソートされたカテゴリに基づいて画像を配置
