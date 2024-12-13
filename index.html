@@ -108,22 +108,7 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
     
-#image-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center; /* 中央揃え */
-  z-index: 2;
-}
-
-.category-image {
-  position: absolute; /* すべての画像を同じ位置に重ねる */
-  top: 0;
-  left: 0;
-}
-    
+  
     /* 円グラフのスタイル */
     #pie-chart {
       width: 800px;
@@ -354,59 +339,48 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
-  
-function displayCategoryImages(categoryCount) {
-  const sortedCategories = Object.entries(categoryCount)
-    .sort((a, b) => b[1] - a[1]) // 高い順に並べ替え
-    .map(([category, count]) => ({ category, count }));
+  function displayCategoryImages(categoryCount) {
+  // カテゴリを割合の降順にソート
+  const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
-  // 上位4つのカテゴリを取得
-  const selectedCategories = [
-    sortedCategories[4] || {}, // 5位
-    sortedCategories[5] || {}, // 6位
-    sortedCategories[6] || {}, // 7位
-    sortedCategories[7] || {}, // 8位
+  // 上位3位までの画像を表示する例
+  const topImagesContainer = document.createElement('div');
+  topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
+  topImagesContainer.style.top = '50%';  // 真ん中に配置
+  topImagesContainer.style.left = '50%'; // 真ん中に配置
+  topImagesContainer.style.transform = 'translate(-50%, -50%)';  // 真ん中に合わせる
+  topImagesContainer.style.display = 'flex';
+  topImagesContainer.style.justifyContent = 'center';
+  topImagesContainer.style.alignItems = 'center';
+  topImagesContainer.style.zIndex = '2';  // bubble-animation より前に表示
+
+  // 各画像の配置を三角形の頂点になるように
+  const positions = [
+    { top: '-50px', left: '-100px' },  // 1位の画像位置
+    { top: '-50px', left: '0px' },    // 2位の画像位置
+    { top: '-50px', left: '100px' }   // 3位の画像位置
   ];
 
-  // bubble-animationの中に画像を配置する
-  const bubbleAnimation = document.getElementById('bubble-animation');
-  const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
-
-  selectedCategories.forEach(({ category = '' }, index) => {
-    if (!category) return; // カテゴリがない場合はスキップ
-
-    const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
-    const img = document.createElement('img');
-    img.src = imagePath;
-    img.alt = category;
-    img.style.width = '60px'; // サイズを調整
-    img.style.height = 'auto';
-    img.style.borderRadius = '10px';
-    img.style.position = 'absolute'; // 絶対配置
-
-    // 位置を設定
-    switch (positions[index]) {
-      case 'top-left':
-        img.style.top = '10px';
-        img.style.left = '10px';
-        break;
-      case 'top-right':
-        img.style.top = '10px';
-        img.style.right = '10px';
-        break;
-      case 'bottom-left':
-        img.style.bottom = '10px';
-        img.style.left = '10px';
-        break;
-      case 'bottom-right':
-        img.style.bottom = '10px';
-        img.style.right = '10px';
-        break;
-    }
-
-    // bubble-animationに追加
-    bubbleAnimation.appendChild(img);
+  // ソートされたカテゴリに基づいて画像を配置
+  sortedCategories.slice(0, 3).forEach(([category, count], index) => {
+    const imgElement = document.createElement('img');
+    imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
+    imgElement.alt = `${category}の画像`;
+    imgElement.style.position = 'absolute';  // 各画像の絶対位置
+    imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
+    imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
+    imgElement.style.margin = '0 15px';
+    imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
+    topImagesContainer.appendChild(imgElement);
   });
+
+  // 既存の画像コンテナがあれば削除して新たに追加
+  const existingContainer = document.getElementById('top-images');
+  if (existingContainer) {
+    existingContainer.remove();
+  }
+  topImagesContainer.id = 'top-images';
+  document.getElementById('container').appendChild(topImagesContainer);
 }
 
 </script>
