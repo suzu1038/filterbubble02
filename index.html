@@ -348,8 +348,8 @@ function displayCategoryImages(categoryCount) {
   // 上位3位までの画像を表示する例
   const topImagesContainer = document.createElement('div');
   topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
-  topImagesContainer.style.top = '50%';  // 真ん中に配置
-  topImagesContainer.style.left = '50%'; // 真ん中に配置
+  topImagesContainer.style.top = '45%';  // 真ん中に配置
+  topImagesContainer.style.left = '45%'; // 真ん中に配置
   topImagesContainer.style.transform = 'translate(0%, 0%)';  // 真ん中に合わせる
   topImagesContainer.style.display = 'flex';
   topImagesContainer.style.justifyContent = 'center';
@@ -358,9 +358,9 @@ function displayCategoryImages(categoryCount) {
 
   // 各画像の配置を三角形の頂点になるように
   const positions = [
-    { top: '120px', left: '-130px' },  // 1位の画像位置
+    { top: '100px', left: '-130px' },  // 1位の画像位置
     { top: '-100px', left: '0px' },    // 2位の画像位置
-    { top: '120px', left: '130px' }   // 3位の画像位置
+    { top: '100px', left: '130px' }   // 3位の画像位置
   ];
 
   // ソートされたカテゴリに基づいて画像を配置
@@ -371,7 +371,7 @@ function displayCategoryImages(categoryCount) {
     imgElement.style.position = 'absolute';  // 各画像の絶対位置
     imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
     imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
-    imgElement.style.width = '160px'; // 横幅120pxに設定
+    imgElement.style.width = '140px'; // 横幅120pxに設定
     imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
     imgElement.style.margin = '0 15px';
     imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
