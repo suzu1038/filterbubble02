@@ -399,6 +399,44 @@ imageContainer.appendChild(img);
   const container = document.getElementById('container');
   container.appendChild(imageContainer);
 }
-  
+
+   // bubble-animationの中に画像を配置する
+  const bubbleAnimation = document.getElementById('bubble-animation');
+  const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+
+
+    const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.alt = category;
+    img.style.width = '60px'; // サイズを調整
+    img.style.height = 'auto';
+    img.style.borderRadius = '10px';
+    img.style.position = 'absolute'; // 絶対配置
+
+    // 位置を設定
+    switch (positions[index]) {
+      case 'top-left':
+        img.style.top = '10px';
+        img.style.left = '10px';
+        break;
+      case 'top-right':
+        img.style.top = '10px';
+        img.style.right = '10px';
+        break;
+      case 'bottom-left':
+        img.style.bottom = '10px';
+        img.style.left = '10px';
+        break;
+      case 'bottom-right':
+        img.style.bottom = '10px';
+        img.style.right = '10px';
+        break;
+    }
+
+    // bubble-animationに追加
+    bubbleAnimation.appendChild(img);
+  });
+}
 </script>
 </html>
