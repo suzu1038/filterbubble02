@@ -108,22 +108,20 @@
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
 
-    
-    /* 画像のふわふわアニメーション */
-@keyframes float {
+@keyframes floatUpDown {
   0% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px); /* 上に10px移動 */
+    transform: translateY(-20px); /* 上にふわっと */
   }
   100% {
     transform: translateY(0);
   }
 }
 
-.floating-image {
-  animation: float 2s ease-in-out infinite;  /* アニメーションを2秒で繰り返す */
+.floating {
+  animation: floatUpDown 3s ease-in-out infinite;
 }
 
 
@@ -359,75 +357,72 @@ function drawPieChart(categoryCount) {
   });
 }
 
-  function displayCategoryImages(categoryCount) {
-  // カテゴリを割合の降順にソート
+function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
-  // 上位3位までの画像を表示する例
   const topImagesContainer = document.createElement('div');
-  topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
-  topImagesContainer.style.top = '41%';  // 真ん中に配置
-  topImagesContainer.style.left = '45.5%'; // 真ん中に配置
-  topImagesContainer.style.transform = 'translate(0%, 0%)';  // 真ん中に合わせる
+  topImagesContainer.style.position = 'absolute';
+  topImagesContainer.style.top = '41%';
+  topImagesContainer.style.left = '45.5%';
+  topImagesContainer.style.transform = 'translate(0%, 0%)';
   topImagesContainer.style.display = 'flex';
   topImagesContainer.style.justifyContent = 'center';
   topImagesContainer.style.alignItems = 'center';
-  topImagesContainer.style.zIndex = '2';  // bubble-animation より前に表示
+  topImagesContainer.style.zIndex = '2';
 
-  // 各画像の配置を三角形の頂点になるように
   const positions = [
-    { top: '100px', left: '-90px' },  // 1位の画像位置
-    { top: '-120px', left: '0px' },    // 2位の画像位置
-    { top: '20px', left: '130px' }   // 3位の画像位置
+    { top: '100px', left: '-90px' },
+    { top: '-120px', left: '0px' },
+    { top: '20px', left: '130px' }
   ];
 
-  // 5位、6位、7位、8位の配置を四角形の頂点になるように
   const squarePositions = [
-    { top: '-210px', left: '-230px' },  // 5位の画像位置
-    { top: '-210px', left: '230px' },   // 6位の画像位置
-    { top: '250px', left: '-220px' },  // 7位の画像位置
-    { top: '250px', left: '220px' }    // 8位の画像位置
+    { top: '-210px', left: '-230px' },
+    { top: '-210px', left: '230px' },
+    { top: '250px', left: '-220px' },
+    { top: '250px', left: '220px' }
   ];
 
-  // ソートされたカテゴリに基づいて画像を配置
   sortedCategories.slice(0, 3).forEach(([category, count], index) => {
     const imgElement = document.createElement('img');
     imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
     imgElement.alt = `${category}の画像`;
-    imgElement.style.position = 'absolute';  // 各画像の絶対位置
-    imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
-    imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
-    imgElement.style.width = '140px'; // 横幅140pxに設定
-    imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
+    imgElement.style.position = 'absolute';
+    imgElement.style.top = positions[index].top;
+    imgElement.style.left = positions[index].left;
+    imgElement.style.width = '140px';
+    imgElement.style.height = 'auto';
     imgElement.style.margin = '0 15px';
-    imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
+    imgElement.title = `${category} (${count}件)`;
 
-    // アニメーションを適用するためにクラスを追加
-    imgElement.classList.add('floating-image'); 
+    // ランダムな遅延を追加
+    const randomDelay = Math.random() * 2;  // 0〜2秒のランダムな遅延
+    imgElement.style.animationDelay = `${randomDelay}s`;
+    imgElement.classList.add('floating');  // CSSアニメーションのクラスを追加
 
     topImagesContainer.appendChild(imgElement);
   });
 
-  // 5位、6位、7位、8位の画像を配置
   sortedCategories.slice(4, 8).forEach(([category, count], index) => {
     const imgElement = document.createElement('img');
     imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
     imgElement.alt = `${category}の画像`;
-    imgElement.style.position = 'absolute';  // 各画像の絶対位置
-    imgElement.style.top = squarePositions[index].top;  // 四角形の頂点に合わせた位置
-    imgElement.style.left = squarePositions[index].left;  // 四角形の頂点に合わせた位置
-    imgElement.style.width = '140px'; // 横幅140pxに設定
-    imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
+    imgElement.style.position = 'absolute';
+    imgElement.style.top = squarePositions[index].top;
+    imgElement.style.left = squarePositions[index].left;
+    imgElement.style.width = '140px';
+    imgElement.style.height = 'auto';
     imgElement.style.margin = '0 15px';
-    imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
+    imgElement.title = `${category} (${count}件)`;
 
-    // アニメーションを適用するためにクラスを追加
-    imgElement.classList.add('floating-image');
+    // ランダムな遅延を追加
+    const randomDelay = Math.random() * 2;  // 0〜2秒のランダムな遅延
+    imgElement.style.animationDelay = `${randomDelay}s`;
+    imgElement.classList.add('floating');  // CSSアニメーションのクラスを追加
 
     topImagesContainer.appendChild(imgElement);
   });
 
-  // 既存の画像コンテナがあれば削除して新たに追加
   const existingContainer = document.getElementById('top-images');
   if (existingContainer) {
     existingContainer.remove();
