@@ -355,55 +355,25 @@ function drawPieChart(categoryCount) {
   });
 }
   
-  function displayCategoryImages(categoryCount) {
+function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount)
     .sort((a, b) => b[1] - a[1]) // 高い順に並べ替え
     .map(([category, count]) => ({ category, count }));
 
-  // 上位3つのカテゴリを取得
-  const topCategories = sortedCategories.slice(0, 3);
-
-  // 上位3つに加えて5位、6位、7位、8位を取得（足りない場合はundefinedを回避）
+  // 上位4つのカテゴリを取得
   const selectedCategories = [
-    topCategories[0], // 1位
-    topCategories[1], // 2位
-    topCategories[2], // 3位
     sortedCategories[4] || {}, // 5位
     sortedCategories[5] || {}, // 6位
     sortedCategories[6] || {}, // 7位
     sortedCategories[7] || {}, // 8位
   ];
 
-     const imageContainer = document.createElement('div');
-  imageContainer.id = 'image-container'; // 修正されたCSSが適用される
-  imageContainer.style.position = 'absolute'; // 必要なら手動
-    
-  selectedCategories.forEach(({ category = '' }, index) => {
-    // categoryが空の場合はスキップ
-    if (!category) return;
-
-    const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
-    const img = document.createElement('img');
-    img.src = imagePath;
-    img.alt = category;
-    img.style.width = '150px';
-    img.style.height = 'auto';
-    img.style.margin = '10px';
-    img.style.borderRadius = '10px';
-
-    // 順位に応じたクラスを追加
-    img.className = `category-image rank-${index + 1}`;
-imageContainer.appendChild(img);
-  });
-
-  const container = document.getElementById('container');
-  container.appendChild(imageContainer);
-}
-
-   // bubble-animationの中に画像を配置する
+  // bubble-animationの中に画像を配置する
   const bubbleAnimation = document.getElementById('bubble-animation');
   const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
 
+  selectedCategories.forEach(({ category = '' }, index) => {
+    if (!category) return; // カテゴリがない場合はスキップ
 
     const imagePath = `assets/images/${CATEGORY_IMAGES[category]}`;
     const img = document.createElement('img');
@@ -438,5 +408,6 @@ imageContainer.appendChild(img);
     bubbleAnimation.appendChild(img);
   });
 }
+
 </script>
 </html>
