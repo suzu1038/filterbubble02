@@ -339,6 +339,7 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
+
   function displayCategoryImages(categoryCount) {
   // カテゴリを割合の降順にソート
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
@@ -356,9 +357,9 @@ function drawPieChart(categoryCount) {
 
   // 各画像の配置を三角形の頂点になるように
   const positions = [
-    { top: '-50px', left: '-100px' },  // 1位の画像位置
-    { top: '-50px', left: '0px' },    // 2位の画像位置
-    { top: '-50px', left: '100px' }   // 3位の画像位置
+    { top: '-90px', left: '-150px' },  // 1位の画像位置
+    { top: '-100px', left: '0px' },    // 2位の画像位置
+    { top: '-90px', left: '150px' }   // 3位の画像位置
   ];
 
   // ソートされたカテゴリに基づいて画像を配置
@@ -369,6 +370,8 @@ function drawPieChart(categoryCount) {
     imgElement.style.position = 'absolute';  // 各画像の絶対位置
     imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
     imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
+    imgElement.style.width = '120px'; // 横幅120pxに設定
+    imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
     imgElement.style.margin = '0 15px';
     imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
     topImagesContainer.appendChild(imgElement);
@@ -382,6 +385,7 @@ function drawPieChart(categoryCount) {
   topImagesContainer.id = 'top-images';
   document.getElementById('container').appendChild(topImagesContainer);
 }
+
 
 </script>
 </html>
