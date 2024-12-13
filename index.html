@@ -107,7 +107,25 @@
   position: relative; /* bubble-animationにもpositionを設定 */
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
+
     
+    /* 画像のふわふわアニメーション */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* 上に10px移動 */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.floating-image {
+  animation: float 2s ease-in-out infinite;  /* アニメーションを2秒で繰り返す */
+}
+
 
     
     /* 円グラフのスタイル */
@@ -340,8 +358,8 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
-  
-function displayCategoryImages(categoryCount) {
+
+  function displayCategoryImages(categoryCount) {
   // カテゴリを割合の降順にソート
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
@@ -383,6 +401,10 @@ function displayCategoryImages(categoryCount) {
     imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
     imgElement.style.margin = '0 15px';
     imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
+
+    // アニメーションを適用するためにクラスを追加
+    imgElement.classList.add('floating-image'); 
+
     topImagesContainer.appendChild(imgElement);
   });
 
@@ -398,6 +420,10 @@ function displayCategoryImages(categoryCount) {
     imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
     imgElement.style.margin = '0 15px';
     imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
+
+    // アニメーションを適用するためにクラスを追加
+    imgElement.classList.add('floating-image');
+
     topImagesContainer.appendChild(imgElement);
   });
 
