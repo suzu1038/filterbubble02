@@ -96,7 +96,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
     
 #bubble-animation {
@@ -339,16 +338,16 @@ function drawPieChart(categoryCount) {
   });
 }
 
-  function displayCategoryImages(categoryCount) {
+function displayCategoryImages(categoryCount) {
   // カテゴリを割合の降順にソート
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
   // 上位3位までの画像を表示する例
   const topImagesContainer = document.createElement('div');
   topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
-  topImagesContainer.style.top = '50%';  // 真ん中に配置
-  topImagesContainer.style.left = '50%'; // 真ん中に配置
-  topImagesContainer.style.transform = 'translate(-50%, -50%)';  // 真ん中に合わせる
+  topImagesContainer.style.top = '20%';  // 左上よりに配置
+  topImagesContainer.style.left = '20%'; // 左上よりに配置
+  topImagesContainer.style.transform = 'translate(0%, 0%)';  // 変更なし
   topImagesContainer.style.display = 'flex';
   topImagesContainer.style.justifyContent = 'center';
   topImagesContainer.style.alignItems = 'center';
@@ -356,9 +355,9 @@ function drawPieChart(categoryCount) {
 
   // 各画像の配置を三角形の頂点になるように
   const positions = [
-    { top: '-90px', left: '-150px' },  // 1位の画像位置
-    { top: '-100px', left: '0px' },    // 2位の画像位置
-    { top: '-90px', left: '150px' }   // 3位の画像位置
+    { top: '-120px', left: '-150px' },  // 1位の画像位置
+    { top: '-200px', left: '0px' },    // 2位の画像位置（差を大きく）
+    { top: '-120px', left: '150px' }   // 3位の画像位置
   ];
 
   // ソートされたカテゴリに基づいて画像を配置
