@@ -337,51 +337,51 @@ function drawPieChart(categoryCount) {
     document.getElementById('pie-chart').style.display = 'block'; // 円グラフの表示を確実にする
   });
 }
-
+  
 function displayCategoryImages(categoryCount) {
   // カテゴリを割合の降順にソート
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
+  // 上位3位までの画像を表示する例
   const topImagesContainer = document.createElement('div');
-topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
-topImagesContainer.style.top = '50%';  // 親要素の中央に配置
-topImagesContainer.style.left = '50%'; // 親要素の中央に配置
-topImagesContainer.style.transform = 'translate(-50%, -50%)';  // 真ん中に合わせる
-topImagesContainer.style.display = 'flex';
-topImagesContainer.style.justifyContent = 'center';
-topImagesContainer.style.alignItems = 'center';
-topImagesContainer.style.zIndex = '2';  // bubble-animation より前に表示
+  topImagesContainer.style.position = 'absolute';  // 位置を絶対位置に設定
+  topImagesContainer.style.top = '50%';  // 真ん中に配置
+  topImagesContainer.style.left = '50%'; // 真ん中に配置
+  topImagesContainer.style.transform = 'translate(-50%, -50%)';  // 真ん中に合わせる
+  topImagesContainer.style.display = 'flex';
+  topImagesContainer.style.justifyContent = 'center';
+  topImagesContainer.style.alignItems = 'center';
+  topImagesContainer.style.zIndex = '2';  // bubble-animation より前に表示
 
-// 各画像の配置を三角形の頂点になるように
-const positions = [
-  { top: '-120px', left: '-150px' },  // 1位の画像位置
-  { top: '-200px', left: '0px' },    // 2位の画像位置（差を大きく）
-  { top: '-120px', left: '150px' }   // 3位の画像位置
-];
+  // 各画像の配置を三角形の頂点になるように
+  const positions = [
+    { top: '-90px', left: '-150px' },  // 1位の画像位置
+    { top: '-100px', left: '0px' },    // 2位の画像位置
+    { top: '-90px', left: '150px' }   // 3位の画像位置
+  ];
 
-// ソートされたカテゴリに基づいて画像を配置
-sortedCategories.slice(0, 3).forEach(([category, count], index) => {
-  const imgElement = document.createElement('img');
-  imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
-  imgElement.alt = `${category}の画像`;
-  imgElement.style.position = 'absolute';  // 各画像の絶対位置
-  imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
-  imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
-  imgElement.style.width = '120px'; // 横幅120pxに設定
-  imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
-  imgElement.style.margin = '0 15px';
-  imgElement.title = `${category} (${count}件)`;  // ツールチップで詳細を表示
-  topImagesContainer.appendChild(imgElement);
-});
+  // ソートされたカテゴリに基づいて画像を配置
+  sortedCategories.slice(0, 3).forEach(([category, count], index) => {
+    const imgElement = document.createElement('img');
+    imgElement.src = assets/images/${CATEGORY_IMAGES[category]};
+    imgElement.alt = ${category}の画像;
+    imgElement.style.position = 'absolute';  // 各画像の絶対位置
+    imgElement.style.top = positions[index].top;  // 三角形の頂点に合わせた位置
+    imgElement.style.left = positions[index].left;  // 三角形の頂点に合わせた位置
+    imgElement.style.width = '120px'; // 横幅120pxに設定
+    imgElement.style.height = 'auto'; // 縦横比を保ったまま高さを調整
+    imgElement.style.margin = '0 15px';
+    imgElement.title = ${category} (${count}件);  // ツールチップで詳細を表示
+    topImagesContainer.appendChild(imgElement);
+  });
 
-// 既存の画像コンテナがあれば削除して新たに追加
-const existingContainer = document.getElementById('top-images');
-if (existingContainer) {
-  existingContainer.remove();
-}
-topImagesContainer.id = 'top-images';
-document.getElementById('container').appendChild(topImagesContainer);
-
+  // 既存の画像コンテナがあれば削除して新たに追加
+  const existingContainer = document.getElementById('top-images');
+  if (existingContainer) {
+    existingContainer.remove();
+  }
+  topImagesContainer.id = 'top-images';
+  document.getElementById('container').appendChild(topImagesContainer);
 
 </script>
 </html>
