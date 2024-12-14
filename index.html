@@ -393,16 +393,28 @@ function drawPieChart(categoryCount) {
 function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
-  const topImagesContainer = document.createElement('div');
+   const topImagesContainer = document.createElement('div');
   topImagesContainer.style.position = 'absolute';
-  topImagesContainer.style.top = '41%';
-  topImagesContainer.style.left = '45.5%';
-  topImagesContainer.style.transform = 'translate(0%, 0%)';
   topImagesContainer.style.display = 'flex';
   topImagesContainer.style.justifyContent = 'center';
   topImagesContainer.style.alignItems = 'center';
   topImagesContainer.style.zIndex = '2';
 
+  // スマホかどうかを判定
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // スマホの場合の位置設定
+    topImagesContainer.style.top = '50%';
+    topImagesContainer.style.left = '45%';
+    topImagesContainer.style.transform = 'translate(0%, 0%)';
+  } else {
+    // デスクトップの場合の位置設定
+    topImagesContainer.style.top = '41%';
+    topImagesContainer.style.left = '45.5%';
+    topImagesContainer.style.transform = 'translate(0%, 0%)';
+  }
+  
   const positions = [
     { top: '100px', left: '-90px' },
     { top: '-120px', left: '0px' },
