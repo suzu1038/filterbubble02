@@ -74,7 +74,7 @@
   position: absolute;
   top: -150%;
   left: -100px;
-  width: 250px;
+  width: 210px;
   height: 300%;
   content: '';
   -webkit-transform: rotate(25deg);
@@ -152,14 +152,13 @@
 
 .littlehighlight {
   font-weight: bold;
+  font-size: 1.5em;
 }
 
 
-    .content2-box {
-  background-color: white;
+    .content-box2 {
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 20px auto;
 }
@@ -370,6 +369,15 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
   <h2>① まずはこの動画を見て、あなたの閲覧履歴を分析するための下準備をしましょう。</h2>
   <p>少し時間がかかります。</p>
   <a href="動画のURL" target="_blank">動画を見る</a>
+    <div id="instruction">
+    <p>
+      <strong>🔴始める前に：</strong>
+      <a href="https://takeout.google.com/" target="_blank" style="color: #6e7dff; text-decoration: underline;">
+        https://takeout.google.com/
+      </a>
+      からYouTubeの閲覧履歴のデータをダウンロードしてください。
+    </p>
+  </div>
 
   <h2>② ここではジャンルのことをカテゴリーといいます。</h2>
   <p>これはYouTube公式の定めた区分に沿った分け方です。</p>
@@ -379,15 +387,7 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
   <img src="assets/images/explain_bubble.png" alt="バブルの説明画像" />
 </div>
 
-  <div id="instruction">
-    <p>
-      <strong>🔴始める前に：</strong>
-      <a href="https://takeout.google.com/" target="_blank" style="color: #6e7dff; text-decoration: underline;">
-        https://takeout.google.com/
-      </a>
-      からYouTubeの閲覧履歴のデータをダウンロードしてください。
-    </p>
-  </div>
+
   <h1>下のボタンを押してZIPファイルを読み込もう</h1>
   <button id="load-file">Load ZIP File</button>
   
