@@ -155,6 +155,45 @@
 }
 
 
+    .content2-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.content-box2 h2 {
+  font-size: 1.2em;
+  margin-top: 20px; /* 見出しの上にスペースを追加 */
+  margin-bottom: 10px;
+}
+
+.content-box2 p {
+  line-height: 1.6;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+.content-box2 a {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #007BFF; /* リンクの色 */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.content-box2 a:hover {
+  text-decoration: underline;
+}
+
+.content-box2 img {
+  max-width: 100%; /* レスポンシブ対応 */
+  height: auto;
+  margin: 10px 0;
+  border-radius: 5px;
+}
     
     #instruction {
     font-size: 30px; /* 元の16pxから1.5倍 */
@@ -211,6 +250,7 @@
   position: relative; /* bubble-animationにもpositionを設定 */
   z-index: 1; /* bubble-animationはz-index: 1 */
 }
+
 
 @keyframes floatUpDown {
   0% {
@@ -324,9 +364,21 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
 </div>
 
      <div class="headline">
-<h2><span>01</span>はじめに</h2>
+<h2><span>02</span>このサイトの使い方</h2>
   </div>
-  
+<div class="content-box2">
+  <h2>① まずはこの動画を見て、あなたの閲覧履歴を分析するための下準備をしましょう。</h2>
+  <p>少し時間がかかります。</p>
+  <a href="動画のURL" target="_blank">動画を見る</a>
+
+  <h2>② ここではジャンルのことをカテゴリーといいます。</h2>
+  <p>これはYouTube公式の定めた区分に沿った分け方です。</p>
+  <img src="assets/images/category_parts.png" alt="カテゴリーの説明画像" />
+
+  <h2>③ 読み込んだ際の画像の見方です</h2>
+  <img src="assets/images/explain_bubble.png" alt="バブルの説明画像" />
+</div>
+
   <div id="instruction">
     <p>
       <strong>🔴始める前に：</strong>
