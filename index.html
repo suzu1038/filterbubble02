@@ -91,6 +91,30 @@
   border-radius: 3px;
   background: #F1454B;
 }
+.content-box h2:before,
+.content-box h2:after {
+  position: absolute;
+  content: '';
+}
+
+
+.content-box h2:after {
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+}
+
+.content-box h2:before {
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
 
 .content-box p {
   line-height: 1.6;
