@@ -49,9 +49,9 @@
   height: 10px; /* 下線の太さ */
   content: '';
   border-radius: 3px;
-  //background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
-  //background-image: -webkit-linear-gradient(right, #2af598 0%, #009efd 100%);
-  //background-image: linear-gradient(to left, #2af598 0%, #009efd 100%);
+  background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
+  background-image: -webkit-linear-gradient(right, #2af598 0%, #009efd 100%);
+  background-image: linear-gradient(to left, #2af598 0%, #009efd 100%);
     border-top: 2px solid #000;
   background-image: -webkit-repeating-linear-gradient(135deg, #000, #000 1px, transparent 2px, transparent 5px);
   background-image: repeating-linear-gradient(-45deg, #000, #000 1px, transparent 2px, transparent 5px);
@@ -91,7 +91,7 @@
   border-radius: 3px;
   background: #F1454B;
 }
-.content-box h2:before,
+
 .content-box h2:after {
   position: absolute;
   content: '';
@@ -101,19 +101,10 @@
 .content-box h2:after {
   top: 0;
   left: 0;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-top: 2px solid #000;
   border-left: 2px solid #000;
-}
-
-.content-box h2:before {
-  right: 0;
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
 }
 
 .content-box p {
