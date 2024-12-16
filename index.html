@@ -86,7 +86,7 @@
 }
 
 .sticky-buttons button:hover {
-  opacity: 0.8; /* ボタンをホバーしたときに少し暗くする */
+  opacity: 0.7; /* ボタンをホバーしたときに少し暗くする */
 }
 
 /* ボタンごとの色を指定 */
@@ -337,13 +337,28 @@
   #main-title,
   #instruction,
    #pie-chart{
-    width: calc(1.5 * 60%); /* 元の幅を1.5倍 */
+    max-width: 90%; /* 元の幅を1.5倍 */
   }
 
+  .sticky-buttons {
+    padding: 30px 0; /* 縦方向の余白を広げる */
+  }
+
+  .sticky-buttons button {
+    margin: 10px 0; /* ボタン間の余白を増やす */
+    font-size: 18px; /* ボタンの文字サイズを大きく */
+    padding: 15px 20px; /* ボタン全体のサイズを拡大 */
+  }
+}
+  
     .content-box {
-    max-width: 70%; /* スマホ用の最大幅 */
+    max-width: 90%; /* スマホ用の最大幅 */
     padding: 24px; 
   }
+
+  .headline  h2 {
+    max-width: 90%;
+}
 
   #load-file {
     font-size: calc(1.3 * 24px); /* ボタン文字サイズ */
