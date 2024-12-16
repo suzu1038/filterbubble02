@@ -63,27 +63,47 @@
 /* 固定ボタンのデザイン */
 .sticky-buttons {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 0;
+  left: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* 横一列に並べる */
   z-index: 1000;
+  width: 100%; /* 全幅に広げる */
+  background-color: #f8f9fa; /* 背景色 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 下に影を付ける */
+  padding: 10px 0; /* 縦方向の余白 */
 }
 
 .sticky-buttons button {
-  background-color: #FFD700;
-  color: black;
+  flex: 1; /* ボタンを等間隔に広げる */
+  color: white;
   font-size: 1rem;
-  padding: 10px;
-  border: 2px solid #000;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
   cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  text-align: left;
+  border-radius: 0; /* ボタンの角をフラットに */
+  transition: background-color 0.3s ease;
 }
 
 .sticky-buttons button:hover {
-  background-color: #FFC107;
+  opacity: 0.8; /* ボタンをホバーしたときに少し暗くする */
+}
+
+/* ボタンごとの色を指定 */
+.sticky-buttons .button1 {
+  background-color: #ff7f7f; /* 赤色 */
+}
+
+.sticky-buttons .button2 {
+  background-color: #ffa07a; /* サーモン色 */
+}
+
+.sticky-buttons .button3 {
+  background-color: #87cefa; /* 水色 */
+}
+
+.sticky-buttons .button4 {
+  background-color: #98fb98; /* ライトグリーン */
 }
 
     
@@ -340,11 +360,11 @@
   </style>  
 </head>
 <body>
-  <div class="sticky-buttons">
-  <button onclick="scrollToSection('headline1')">はじめに</button>
-  <button onclick="scrollToSection('headline2')">使い方</button>
-  <button onclick="scrollToSection('headline3')">やってみる</button>
-  <button onclick="scrollToSection('headline4')">アンケート</button>
+<div class="sticky-buttons">
+  <button class="button1" onclick="scrollToSection('headline1')">はじめに</button>
+  <button class="button2" onclick="scrollToSection('headline2')">使い方</button>
+  <button class="button3" onclick="scrollToSection('headline3')">やってみる</button>
+  <button class="button4" onclick="scrollToSection('headline4')">アンケート</button>
 </div>
   <div id="main-title">
     YouTubeの閲覧履歴から<br>あなたのフィルターバブルに気付こう
