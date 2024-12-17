@@ -708,13 +708,13 @@ function displayCategoryImages(categoryCount) {
 
   if (isMobile) {
     // スマホの場合の位置設定
-    topImagesContainer.style.top = '81.5%';
-    topImagesContainer.style.left = '42%';
+    topImagesContainer.style.top = '100%';
+    topImagesContainer.style.left = '100%';
     topImagesContainer.style.transform = 'translate(0%, 0%)';
   } else {
     // デスクトップの場合の位置設定
-    topImagesContainer.style.top = '0%';
-    topImagesContainer.style.left = '0%';
+    topImagesContainer.style.top = '100%';
+    topImagesContainer.style.left = '100%';
     topImagesContainer.style.transform = 'translate(0%, 0%)';
   }
   
@@ -722,7 +722,7 @@ function displayCategoryImages(categoryCount) {
     const positions = isMobile
     ? [
         { top: '170px', left: '-90px' },
-        { top: '-170px', left: '0px' },
+        { top: '0px', left: '0px' },
         { top: '40px', left: '140px' },
       ]
     : [
