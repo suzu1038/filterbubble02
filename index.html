@@ -483,7 +483,9 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
   <button id="load-file">Load ZIP File</button>
   
   <div id="container">
+    <div id="bubble-animation-container">
     <img id="bubble-animation" src="assets/images/bubble1.png" alt="Bubble Image">
+  </div>
     <div id="pie-chart">Loading...</div>
   </div>
          <div id="headline4" class="headline">
@@ -533,6 +535,7 @@ const CATEGORY_ID_MAP = {
       "assets/images/bubble6.png"
     ];
     const imageElement = document.getElementById('bubble-animation');
+  const bubbleAnimationContainer = document.getElementById('bubble-animation-container'); // 親要素
     let currentIndex = 0;
 
     // 画像を切り替える間隔 (ミリ秒)
@@ -785,13 +788,12 @@ function displayCategoryImages(categoryCount) {
     topImagesContainer.appendChild(imgElement);
   });
 
-  const existingContainer = document.getElementById('top-images');
-  if (existingContainer) {
-    existingContainer.remove();
+    const bubbleAnimationContainer = document.getElementById('bubble-animation-container');
+  if (bubbleAnimationContainer) {
+    bubbleAnimationContainer.appendChild(topImagesContainer); // 親要素に追加
   }
-  topImagesContainer.id = 'top-images';
-  document.getElementById('container').appendChild(topImagesContainer);
 }
+
 
  // 指定したIDの要素にスクロール
 function scrollToSection(sectionId) {
