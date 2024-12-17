@@ -5,7 +5,7 @@
   <title>あなたのYouTubeの閲覧履歴からフィルターバブルを実感しよう</title>
 　 <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <style>
     body {
      font-family: 'Kiwi Maru', serif; 
@@ -498,18 +498,6 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
   </div>
     <div id="pie-chart">Loading...</div>
   </div>
-  <div>
-  <h2>カテゴリランキング（上位10件）</h2>
-  <ul id="category-list">
-    <!-- カテゴリランキング結果がここに表示されます -->
-  </ul>
-    </div>
-  <div>
-  <h2>名詞ランキング（上位10件）</h2>
-  <ul id="ranking-list">
-    <!-- ランキング結果がここに表示されます -->
-  </ul>
-</div>
          <div id="headline4" class="headline">
 <h2><span>04</span>　　　アンケート協力のお願い</h2>
   </div>
@@ -652,7 +640,6 @@ async function parseAndDisplayHistory(jsonText) {
     }
 
     const categoryCount = {};
-     const videoTitles = [];
 
     // ここで最大 MAX_VIDEO_COUNT 件の履歴を取得
     const videoUrls = history
@@ -664,9 +651,6 @@ async function parseAndDisplayHistory(jsonText) {
       if (videoId) {
         const categoryName = await fetchVideoCategory(videoId);
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
-
-         const title = await fetchVideoTitle(videoId);
-        videoTitles.push(title);
       }
     }
 
@@ -821,25 +805,7 @@ function displayCategoryImages(categoryCount) {
 }
 
 
-
-// カテゴリ別ランキングを表示する関数
-function displayCategoryRanking(categoryCount) {
-  const sortedCategories = Object.entries(categoryCount)
-    .sort((a, b) => b[1] - a[1]) // 頻度順にソート
-    .slice(0, 10); // 上位10件を表示
-
-  const categoryList = document.getElementById('category-list');
-  categoryList.innerHTML = ''; // 既存の内容をクリア
-
-  sortedCategories.forEach(function ([category, freq], index) {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${index + 1}. ${category}: ${freq}回`; // ランキング形式で表示
-    categoryList.appendChild(listItem); // リストに追加
-  });
-}
-
-
-
+ // 指定したIDの要素にスクロール
 function scrollToSection(sectionId) {
   const element = document.getElementById(sectionId);
   if (element) {
