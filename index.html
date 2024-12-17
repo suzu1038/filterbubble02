@@ -6,6 +6,8 @@
 　 <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/kuromoji/0.1.3/kuromoji.min.js"></script>
+
   <style>
     body {
      font-family: 'Kiwi Maru', serif; 
@@ -498,6 +500,18 @@ YouTubeのおすすめ機能はとても便利なものですが、<br>
   </div>
     <div id="pie-chart">Loading...</div>
   </div>
+  <div>
+  <h2>カテゴリランキング（上位10件）</h2>
+  <ul id="category-list">
+    <!-- カテゴリランキング結果がここに表示されます -->
+  </ul>
+    </div>
+  <div>
+  <h2>名詞ランキング（上位10件）</h2>
+  <ul id="ranking-list">
+    <!-- ランキング結果がここに表示されます -->
+  </ul>
+</div>
          <div id="headline4" class="headline">
 <h2><span>04</span>　　　アンケート協力のお願い</h2>
   </div>
@@ -640,6 +654,7 @@ async function parseAndDisplayHistory(jsonText) {
     }
 
     const categoryCount = {};
+     const videoTitles = [];
 
     // ここで最大 MAX_VIDEO_COUNT 件の履歴を取得
     const videoUrls = history
@@ -651,6 +666,9 @@ async function parseAndDisplayHistory(jsonText) {
       if (videoId) {
         const categoryName = await fetchVideoCategory(videoId);
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+
+         const title = await fetchVideoTitle(videoId);
+        videoTitles.push(title);
       }
     }
 
@@ -815,6 +833,94 @@ function scrollToSection(sectionId) {
     });
   }
 }
+
+  kuromoji.builder({ dicPath: '/path/to/dictionary' }).build(function (err, tokenizer) {
+      if (err) {
+        console.error('Tokenizerのエラー:', err);
+        return;
+      }
+
+      const wordFreq = {};
+      videoTitles.forEach(function (title) {
+        const tokens = tokenizer.tokenize(title);
+        tokens.forEach(function (token) {
+          // 名詞の中で「一般名詞」「固有名詞」「サ変接続名詞」のみを集計
+          if (token.pos === '名詞' && 
+              (token.pos_detail_1 === '一般' || 
+               token.pos_detail_1 === '固有名詞' || 
+               token.pos_detail_1 === 'サ変接続名詞')) {
+            if (wordFreq[token.surface_form]) {
+              wordFreq[token.surface_form]++;
+            } else {
+              wordFreq[token.surface_form] = 1;
+            }
+          }
+        });
+      });
+
+      // 名詞頻度のランキング表示
+      displayRanking(wordFreq);
+    });
+
+    // カテゴリの集計結果を表示（オプション）
+    displayCategoryRanking(categoryCount);
+
+  } catch (error) {
+    console.error('履歴解析エラー:', error);
+  }
+}
+
+// カテゴリ別ランキングを表示する関数
+function displayCategoryRanking(categoryCount) {
+  const sortedCategories = Object.entries(categoryCount)
+    .sort((a, b) => b[1] - a[1]) // 頻度順にソート
+    .slice(0, 10); // 上位10件を表示
+
+  const categoryList = document.getElementById('category-list');
+  categoryList.innerHTML = ''; // 既存の内容をクリア
+
+  sortedCategories.forEach(function ([category, freq], index) {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${index + 1}. ${category}: ${freq}回`; // ランキング形式で表示
+    categoryList.appendChild(listItem); // リストに追加
+  });
+}
+
+// 動画IDから動画タイトルを取得する関数
+async function fetchVideoTitle(videoId) {
+  try {
+    const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
+    if (!response.ok) {
+      throw new Error(`HTTPエラー！ステータス: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data.items && data.items.length > 0) {
+      return data.items[0].snippet.title;  // タイトルを返す
+    }
+    return 'タイトルなし';
+  } catch (error) {
+    console.error('YouTube APIのエラー:', error);
+    return 'タイトルなし';
+  }
+}
+
+// 名詞ランキングを表示する関数
+function displayRanking(wordFreq) {
+  const sortedWords = Object.entries(wordFreq)
+    .sort((a, b) => b[1] - a[1]) // 頻度順にソート
+    .slice(0, 10); // 上位10件を表示
+
+  const rankingList = document.getElementById('ranking-list');
+  rankingList.innerHTML = ''; // 既存の内容をクリア
+
+  sortedWords.forEach(function ([word, freq], index) {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${index + 1}. ${word}: ${freq}回`; // ランキング形式で表示
+    rankingList.appendChild(listItem); // リストに追加
+  });
+}
+
+
   
 </script>
 </html>
