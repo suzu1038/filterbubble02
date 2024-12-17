@@ -279,12 +279,12 @@
     }
   
     #container {
-      width: 700px;
+      width: 90%;
+      max-width: 1200px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
     
 #bubble-animation {
@@ -525,7 +525,24 @@ const CATEGORY_ID_MAP = {
   '28': '科学と技術',
 };
   
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = [
+      "assets/images/bubble4.png",
+      "assets/images/bubble5.png",
+      "assets/images/bubble6.png"
+    ];
+    const imageElement = document.getElementById('bubble-animation');
+    let currentIndex = 0;
 
+    // 画像を切り替える間隔 (ミリ秒)
+    const interval = 500; // 0.5秒ごとに切り替え
+
+    // 画像の切り替えロジック
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
+      imageElement.src = images[currentIndex]; // 画像を変更
+    }, interval);
+  });
 
 document.addEventListener('DOMContentLoaded', () => {
   const loadFileButton = document.getElementById('load-file');
@@ -675,118 +692,105 @@ function drawPieChart(categoryCount) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const images = [
-    "assets/images/bubble4.png",
-    "assets/images/bubble5.png",
-    "assets/images/bubble6.png"
-  ];
-  const imageElement = document.getElementById('bubble-animation'); // imageElementを取得
-  let currentIndex = 0;
+function displayCategoryImages(categoryCount) {
+  const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
-  // 画像を切り替える間隔 (ミリ秒)
-  const interval = 500; // 0.5秒ごとに切り替え
+   const topImagesContainer = document.createElement('div');
+  topImagesContainer.style.position = 'absolute';
+  topImagesContainer.style.display = 'flex';
+  topImagesContainer.style.justifyContent = 'center';
+  topImagesContainer.style.alignItems = 'center';
+  topImagesContainer.style.zIndex = '2';
 
-  // 画像の切り替えロジック
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % images.length; // インデックスを循環
-    imageElement.src = images[currentIndex]; // 画像を変更
-  }, interval);
+  // スマホかどうかを判定
+  const isMobile = window.innerWidth <= 1300;
 
-  // displayCategoryImages関数の定義
-  function displayCategoryImages(categoryCount) {
-    const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
-
-    // topImagesContainerの生成
-    const topImagesContainer = document.createElement('div');
-    topImagesContainer.id = 'top-images';
-
-    // スタイル設定
-    topImagesContainer.style.position = 'absolute';
-    topImagesContainer.style.top = '50%';
-    topImagesContainer.style.left = '50%';
-    topImagesContainer.style.transform = 'translate(0%, 0%)'; // 中央基準
-    topImagesContainer.style.zIndex = '2';
-    topImagesContainer.style.display = 'flex';
-    topImagesContainer.style.justifyContent = 'center';
-    topImagesContainer.style.alignItems = 'center';
-
-    // imageElement内に追加
-    imageElement.appendChild(topImagesContainer);
-
-    // スマホかどうかを判定
-    const isMobile = window.innerWidth <= 1300;
+  if (isMobile) {
+    // スマホの場合の位置設定
+    topImagesContainer.style.top = '81.5%';
+    topImagesContainer.style.left = '42%';
+    topImagesContainer.style.transform = 'translate(0%, 0%)';
+  } else {
+    // デスクトップの場合の位置設定
+    topImagesContainer.style.top = '41%';
+    topImagesContainer.style.left = '45.5%';
+    topImagesContainer.style.transform = 'translate(0%, 0%)';
+  }
+  
 
     const positions = isMobile
-      ? [
-          { top: '170px', left: '-90px' },
-          { top: '0px', left: '0px' },
-          { top: '40px', left: '140px' },
-        ]
-      : [
-          { top: '100px', left: '-90px' },
-          { top: '0px', left: '0px' },
-          { top: '20px', left: '130px' },
-        ];
+    ? [
+        { top: '170px', left: '-90px' },
+        { top: '-170px', left: '0px' },
+        { top: '40px', left: '140px' },
+      ]
+    : [
+        { top: '100px', left: '-90px' },
+        { top: '-120px', left: '0px' },
+        { top: '20px', left: '130px' },
+      ];
 
-    const squarePositions = isMobile
-      ? [
-          { top: '-250px', left: '-250px' },
-          { top: '-250px', left: '250px' },
-          { top: '350px', left: '-250px' },
-          { top: '350px', left: '250px' },
-        ]
-      : [
-          { top: '-210px', left: '-230px' },
-          { top: '-210px', left: '230px' },
-          { top: '250px', left: '-220px' },
-          { top: '250px', left: '220px' },
-        ];
+  const squarePositions = isMobile
+    ? [
+        { top: '-250px', left: '-250px' },
+        { top: '-250px', left: '250px' },
+        { top: '350px', left: '-250px' },
+        { top: '350px', left: '250px' },
+      ]
+    : [
+        { top: '-210px', left: '-230px' },
+        { top: '-210px', left: '230px' },
+        { top: '250px', left: '-220px' },
+        { top: '250px', left: '220px' },
+      ];
 
-    // 上位3つのカテゴリ画像
-    sortedCategories.slice(0, 3).forEach(([category, count], index) => {
-      const imgElement = document.createElement('img');
-      imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
-      imgElement.alt = `${category}の画像`;
-      imgElement.style.position = 'absolute';
-      imgElement.style.top = positions[index].top;
-      imgElement.style.left = positions[index].left;
-      imgElement.style.width = '140px';
-      imgElement.style.height = 'auto';
-      imgElement.style.margin = '0 15px';
-      imgElement.title = `${category} (${count}件)`;
+  sortedCategories.slice(0, 3).forEach(([category, count], index) => {
+    const imgElement = document.createElement('img');
+    imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
+    imgElement.alt = `${category}の画像`;
+    imgElement.style.position = 'absolute';
+    imgElement.style.top = positions[index].top;
+    imgElement.style.left = positions[index].left;
+    imgElement.style.width = '140px';
+    imgElement.style.height = 'auto';
+    imgElement.style.margin = '0 15px';
+    imgElement.title = `${category} (${count}件)`;
 
-      const randomDelay = Math.random() * 2;
-      imgElement.style.animationDelay = `${randomDelay}s`;
-      imgElement.classList.add('floating');
+    // ランダムな遅延を追加
+    const randomDelay = Math.random() * 2;  // 0〜2秒のランダムな遅延
+    imgElement.style.animationDelay = `${randomDelay}s`;
+    imgElement.classList.add('floating');  // CSSアニメーションのクラスを追加
 
-      topImagesContainer.appendChild(imgElement);
-    });
+    topImagesContainer.appendChild(imgElement);
+  });
 
-    // 4位から8位のカテゴリ画像
-    sortedCategories.slice(4, 8).forEach(([category, count], index) => {
-      const imgElement = document.createElement('img');
-      imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
-      imgElement.alt = `${category}の画像`;
-      imgElement.style.position = 'absolute';
-      imgElement.style.top = squarePositions[index].top;
-      imgElement.style.left = squarePositions[index].left;
-      imgElement.style.width = '140px';
-      imgElement.style.height = 'auto';
-      imgElement.style.margin = '0 15px';
-      imgElement.title = `${category} (${count}件)`;
+  sortedCategories.slice(4, 8).forEach(([category, count], index) => {
+    const imgElement = document.createElement('img');
+    imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
+    imgElement.alt = `${category}の画像`;
+    imgElement.style.position = 'absolute';
+    imgElement.style.top = squarePositions[index].top;
+    imgElement.style.left = squarePositions[index].left;
+    imgElement.style.width = '140px';
+    imgElement.style.height = 'auto';
+    imgElement.style.margin = '0 15px';
+    imgElement.title = `${category} (${count}件)`;
 
-      const randomDelay = Math.random() * 2;
-      imgElement.style.animationDelay = `${randomDelay}s`;
-      imgElement.classList.add('floating');
+    // ランダムな遅延を追加
+    const randomDelay = Math.random() * 2;  // 0〜2秒のランダムな遅延
+    imgElement.style.animationDelay = `${randomDelay}s`;
+    imgElement.classList.add('floating');  // CSSアニメーションのクラスを追加
 
-      topImagesContainer.appendChild(imgElement);
-    });
+    topImagesContainer.appendChild(imgElement);
+  });
+
+  const existingContainer = document.getElementById('top-images');
+  if (existingContainer) {
+    existingContainer.remove();
   }
-
-  displayCategoryImages(categoryCount);
-});
-
+  topImagesContainer.id = 'top-images';
+  document.getElementById('container').appendChild(topImagesContainer);
+}
 
  // 指定したIDの要素にスクロール
 function scrollToSection(sectionId) {
@@ -801,4 +805,5 @@ function scrollToSection(sectionId) {
   
 </script>
 </html>
+
 
