@@ -823,17 +823,6 @@ function displayCategoryImages(categoryCount) {
 }
 
 
- // 指定したIDの要素にスクロール
-function scrollToSection(sectionId) {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    window.scrollTo({
-      top: element.offsetTop - 50, // 調整用の余白
-      behavior: 'smooth' // スムーズにスクロール
-    });
-  }
-}
-
   kuromoji.builder({ dicPath: '/path/to/dictionary' }).build(function (err, tokenizer) {
       if (err) {
         console.error('Tokenizerのエラー:', err);
@@ -920,7 +909,15 @@ function displayRanking(wordFreq) {
   });
 }
 
-
+function scrollToSection(sectionId) {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop - 50, // 調整用の余白
+      behavior: 'smooth' // スムーズにスクロール
+    });
+  }
+}
   
 </script>
 </html>
