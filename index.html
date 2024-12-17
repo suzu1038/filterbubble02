@@ -701,11 +701,6 @@ function displayCategoryImages(categoryCount) {
   const topImagesContainer = document.createElement('div');
   topImagesContainer.id = 'top-images';
 
-  // 既存のtop-imagesコンテナがあれば削除
-  const existingContainer = document.getElementById('top-images');
-  if (existingContainer) {
-    existingContainer.remove();
-  }
 
   // スタイル設定
   topImagesContainer.style.position = 'absolute';
