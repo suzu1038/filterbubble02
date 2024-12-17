@@ -821,13 +821,13 @@ function displayCategoryImages(categoryCount) {
   }
 }
 
-
-  kuromoji.builder({ dicPath: '/path/to/dictionary' }).build(function (err, tokenizer) {
-      if (err) {
-        console.error('Tokenizerのエラー:', err);
-        return;
-      }
-
+kuromoji.builder({
+  dicPath: 'https://suzu1038.github.io/filterbubble02/dict/'
+}).build(function (err, tokenizer) {
+  if (err) {
+    console.error('Tokenizerのエラー:', err);
+    return;
+  }
       const wordFreq = {};
       videoTitles.forEach(function (title) {
         const tokens = tokenizer.tokenize(title);
