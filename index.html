@@ -5,7 +5,6 @@
   <title>あなたのYouTubeの閲覧履歴からフィルターバブルを実感しよう</title>
 　 <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/src/kuromoji.min.js"></script>
 
   <style>
     body {
@@ -821,37 +820,6 @@ function displayCategoryImages(categoryCount) {
   }
 }
 
-kuromoji.builder({
-  dicPath: 'https://suzu1038.github.io/filterbubble02/dict/'
-}).build(function (err, tokenizer) {
-  if (err) {
-    console.error('Tokenizerのエラー:', err);
-    return;
-  }
-      const wordFreq = {};
-      videoTitles.forEach(function (title) {
-        const tokens = tokenizer.tokenize(title);
-        tokens.forEach(function (token) {
-          // 名詞の中で「一般名詞」「固有名詞」「サ変接続名詞」のみを集計
-          if (token.pos === '名詞' && 
-              (token.pos_detail_1 === '一般' || 
-               token.pos_detail_1 === '固有名詞' || 
-               token.pos_detail_1 === 'サ変接続名詞')) {
-            if (wordFreq[token.surface_form]) {
-              wordFreq[token.surface_form]++;
-            } else {
-              wordFreq[token.surface_form] = 1;
-            }
-          }
-        });
-      });
-
-      // 名詞頻度のランキング表示
-      displayRanking(wordFreq);
-    });
-
-    // カテゴリの集計結果を表示（オプション）
-    displayCategoryRanking(categoryCount);
 
 
 // カテゴリ別ランキングを表示する関数
@@ -870,39 +838,7 @@ function displayCategoryRanking(categoryCount) {
   });
 }
 
-// 動画IDから動画タイトルを取得する関数
-async function fetchVideoTitle(videoId) {
-  try {
-    const response = await fetch(`${VIDEO_API_URL}?part=snippet&id=${videoId}&key=${API_KEY}`);
-    if (!response.ok) {
-      throw new Error(`HTTPエラー！ステータス: ${response.status}`);
-    }
-    const data = await response.json();
-    if (data.items && data.items.length > 0) {
-      return data.items[0].snippet.title;  // タイトルを返す
-    }
-    return 'タイトルなし';
-  } catch (error) {
-    console.error('YouTube APIのエラー:', error);
-    return 'タイトルなし';
-  }
-}
 
-// 名詞ランキングを表示する関数
-function displayRanking(wordFreq) {
-  const sortedWords = Object.entries(wordFreq)
-    .sort((a, b) => b[1] - a[1]) // 頻度順にソート
-    .slice(0, 10); // 上位10件を表示
-
-  const rankingList = document.getElementById('ranking-list');
-  rankingList.innerHTML = ''; // 既存の内容をクリア
-
-  sortedWords.forEach(function ([word, freq], index) {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${index + 1}. ${word}: ${freq}回`; // ランキング形式で表示
-    rankingList.appendChild(listItem); // リストに追加
-  });
-}
 
 function scrollToSection(sectionId) {
   const element = document.getElementById(sectionId);
