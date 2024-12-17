@@ -695,12 +695,24 @@ function drawPieChart(categoryCount) {
 function displayCategoryImages(categoryCount) {
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
 
-   const topImagesContainer = document.createElement('div');
-  topImagesContainer.style.position = 'absolute';
-  topImagesContainer.style.display = 'flex';
-  topImagesContainer.style.justifyContent = 'center';
-  topImagesContainer.style.alignItems = 'center';
-  topImagesContainer.style.zIndex = '2';
+  const bubbleAnimation = document.getElementById('bubble-animation');
+
+// topImagesContainerの生成
+const topImagesContainer = document.createElement('div');
+topImagesContainer.id = 'top-images';
+
+// スタイル設定
+topImagesContainer.style.position = 'absolute';
+topImagesContainer.style.top = '50%';
+topImagesContainer.style.left = '50%';
+topImagesContainer.style.transform = 'translate(-50%, -50%)'; // 中央基準
+topImagesContainer.style.zIndex = '2';
+topImagesContainer.style.display = 'flex';
+topImagesContainer.style.justifyContent = 'center';
+topImagesContainer.style.alignItems = 'center';
+
+// bubble-animation内に追加
+bubbleAnimation.appendChild(topImagesContainer);
 
   // スマホかどうかを判定
   const isMobile = window.innerWidth <= 1300;
@@ -780,13 +792,15 @@ function displayCategoryImages(categoryCount) {
     topImagesContainer.appendChild(imgElement);
   });
 
-  const existingContainer = document.getElementById('top-images');
-  if (existingContainer) {
-    existingContainer.remove();
-  }
-  topImagesContainer.id = 'top-images';
-  document.getElementById('container').appendChild(topImagesContainer);
+const existingContainer = document.getElementById('top-images');
+if (existingContainer) {
+  existingContainer.remove();
 }
+
+// IDを設定してbubble-animation内に追加
+topImagesContainer.id = 'top-images';
+document.getElementById('bubble-animation').appendChild(topImagesContainer);
+
 
  // 指定したIDの要素にスクロール
 function scrollToSection(sectionId) {
