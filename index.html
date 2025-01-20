@@ -686,10 +686,31 @@ function drawPieChart(categoryCount) {
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'カテゴリ');
     data.addColumn('number', '数');
+    
+const categoryColors = {
+    '映画とアニメ': '#',
+  '自転車と乗り物': '#',
+  '音楽': '#',
+  'ペットと動物': '#',
+  'スポーツ': '#',
+  '旅行とイベント': '#',
+  'ゲーム': '#',
+  'ブログ': '#68d800',
+  'コメディー': '#',
+  'エンターテイメント': '#',
+  'ニュースと政治': '#',
+  'ハウツーとスタイル': '#',
+  '教育': '#',
+  '科学と技術': '#',
+    };
+
+    const colors = [];
 
     for (const [category, count] of Object.entries(categoryCount)) {
       data.addRow([category, count]);
+      colors.push(categoryColors[category] || '#cccccc'); // 未定義のカテゴリはグレー
     }
+
 
     const options = {
       title: 'あなたの見ている動画カテゴリの偏りは？',
