@@ -679,7 +679,7 @@ const CATEGORY_IMAGES = {
   '教育': 'category13.png',
   '科学と技術': 'category14.png',
 };
-
+  
 function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
@@ -699,6 +699,7 @@ function drawPieChart(categoryCount) {
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
+
     // 円グラフが描画された後に画像を表示
     displayCategoryImages(categoryCount);
     document.getElementById('bubble-animation').style.display = 'block';
@@ -778,7 +779,7 @@ function displayCategoryImages(categoryCount) {
     topImagesContainer.appendChild(imgElement);
   });
 
-  sortedCategories.slice(4, 8).forEach(([category, count], index) => {
+  sortedCategories.slice(6, 9).forEach(([category, count], index) => {
     const imgElement = document.createElement('img');
     imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
     imgElement.alt = `${category}の画像`;
