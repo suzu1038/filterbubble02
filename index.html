@@ -779,7 +779,7 @@ function displayCategoryImages(categoryCount) {
     topImagesContainer.appendChild(imgElement);
   });
 
-  sortedCategories.slice(6, 9).forEach(([category, count], index) => {
+  sortedCategories.slice(5, 8).forEach(([category, count], index) => {
     const imgElement = document.createElement('img');
     imgElement.src = `assets/images/${CATEGORY_IMAGES[category]}`;
     imgElement.alt = `${category}の画像`;
