@@ -697,7 +697,7 @@ const CATEGORY_IMAGES = {
   '科学と技術': '#2e8b57'
 };
 
-function drawPieChart(categoryCount) {
+  function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
@@ -706,21 +706,17 @@ function drawPieChart(categoryCount) {
 
     const colors = [];
 
-    for (const [categoryId, count] of Object.entries(categoryCount)) {
-      const categoryName = CATEGORY_ID_MAP[categoryId] || 'その他';
-      data.addRow([categoryName, count]);
-      colors.push(CATEGORY_COLORS[categoryName] || '#cccccc'); // 未定義カテゴリはグレー
+    for (const [category, count] of Object.entries(categoryCount)) {
+      data.addRow([category, count]); // カテゴリとその数を追加
+      colors.push(CATEGORY_COLORS[category] || '#cccccc'); // 未定義カテゴリはグレー
     }
 
     const options = {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
       legend: { position: 'bottom' },
-      colors: colors // カテゴリに対応する色を設定
+      colors: colors // カテゴリごとの色を適用
     };
-
-    const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-    chart.draw(data, options);
 
     // 円グラフが描画された後に画像を表示
     displayCategoryImages(categoryCount);
