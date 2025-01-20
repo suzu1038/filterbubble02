@@ -680,42 +680,43 @@ const CATEGORY_IMAGES = {
   '科学と技術': 'category14.png',
 };
 
+  const CATEGORY_COLORS = {
+  '映画とアニメ': '#ff5733',
+  '自動車と乗り物': '#33ff57',
+  '音楽': '#3357ff',
+  'ペットと動物': '#ff33a1',
+  'スポーツ': '#f4c542',
+  '旅行とイベント': '#8a42f4',
+  'ゲーム': '#ff8c00',
+  'ブログ': '#00ced1',
+  'コメディー': '#ff4500',
+  'エンターテイメント': '#ff1493',
+  'ニュースと政治': '#4682b4',
+  'ハウツーとスタイル': '#8b0000',
+  '教育': '#556b2f',
+  '科学と技術': '#2e8b57'
+};
+
 function drawPieChart(categoryCount) {
   google.charts.load('current', { packages: ['corechart'] });
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'カテゴリ');
     data.addColumn('number', '数');
-    
-const categoryColors = {
-    '映画とアニメ': '#',
-  '自転車と乗り物': '#',
-  '音楽': '#',
-  'ペットと動物': '#',
-  'スポーツ': '#',
-  '旅行とイベント': '#',
-  'ゲーム': '#',
-  'ブログ': '#68d800',
-  'コメディー': '#',
-  'エンターテイメント': '#',
-  'ニュースと政治': '#',
-  'ハウツーとスタイル': '#',
-  '教育': '#',
-  '科学と技術': '#',
-    };
 
     const colors = [];
 
-    for (const [category, count] of Object.entries(categoryCount)) {
-      data.addRow([category, count]);
-      colors.push(categoryColors[category] || '#cccccc'); // 未定義のカテゴリはグレー
+    for (const [categoryId, count] of Object.entries(categoryCount)) {
+      const categoryName = CATEGORY_ID_MAP[categoryId] || 'その他';
+      data.addRow([categoryName, count]);
+      colors.push(CATEGORY_COLORS[categoryName] || '#cccccc'); // 未定義カテゴリはグレー
     }
-
 
     const options = {
       title: 'あなたの見ている動画カテゴリの偏りは？',
       pieHole: 0.4,
       legend: { position: 'bottom' },
+      colors: colors // カテゴリに対応する色を設定
     };
 
     const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
